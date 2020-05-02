@@ -12,7 +12,7 @@ export default class Gauge {
     gaugeHolder.append(gaugeElement)
     
     this.gaugeOptions = {
-      width: 250, height: 250,
+      width: 300, height: 300,
       max: max,
       min: min,
       redFrom: redFrom, redTo: redTo,
