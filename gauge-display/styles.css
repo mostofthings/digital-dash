@@ -3,6 +3,10 @@ body {
 
 }
 
+div{
+    display: inline-block;
+}
+
 h1 {
     font-size: 50px;
 }

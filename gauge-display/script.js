@@ -1,3 +1,4 @@
+import Gauge from './draw-gauges.js';
 let gaugeData;
 let gauges;
 let gaugeOptions;
@@ -5,6 +6,7 @@ let chart;
 let isSweepDone = false;
 let rollingWaterTemp = [];
 let rollingTimestamp = [];
+
 
 
 window.onload = function () {
@@ -31,6 +33,8 @@ function tempCalculateAndDisplay(sensorData) {
     if (gaugeData) {
         gaugeData.setValue(0, 1, sensorData.waterTemp);
         gauges.draw(gaugeData, gaugeOptions);
+        tempGauge.updateGauge(sensorData.waterTemp);
+        oilTempGauge.updateGauge(sensorData.oilTemp)
         rollingWaterTemp.push(sensorData.waterTemp);
         rollingWaterTemp.shift();
         rollingTimestamp.push(new Date(sensorData.timestamp));
@@ -42,44 +46,12 @@ function tempCalculateAndDisplay(sensorData) {
     }
 }
 
-google.charts.load('current', { 'packages': ['gauge'] });
-google.charts.setOnLoadCallback(drawGauges);
-
-function drawGauges() {
-    gaugeData = google.visualization.arrayToDataTable([
-        ['Label', 'Value'],
-        ['Temp', 80],
-        ['Oil PSI', 175],
-        ['RPM', 180],
-        ['Boost', 160],
-        ['Fuel PSI', 110],
-    ]);
-
-    gaugeOptions = {
-        width: 920, height: 620,
-        max: 240,
-        min: 80,
-        redFrom: 215, redTo: 240,
-        yellowFrom: 200, yellowTo: 215,
-        majorTicks: ['80', '100', '120', '140', '160', '180', '200', '220', '240'],
-        minorTicks: 10
-    };
-
-    gauges = new google.visualization.Gauge(document.getElementById('chart-div'));
-
-    gauges.draw(gaugeData, gaugeOptions);
-
-    setTimeout(() => {
-        gaugeData.setValue(0, 1, 240)
-        gauges.draw(gaugeData, gaugeOptions);
-    }, 400)
-    setTimeout(() => {
-        gaugeData.setValue(0, 1, 80)
-        gauges.draw(gaugeData, gaugeOptions);
-    }, 800)
-    setTimeout(() => isSweepDone = true, 1400);
-
-}
+let tempGauge = new Gauge("temp", "temp", 80, 240, 0, 0, 190, 205, 205, 240, [80, 100, 120, 140, 160, 180, 200, 220, 240], 5);
+let oilTempGauge = new Gauge("oil", "oil psi", 0, 140, 0, 0, 16, 20, 0, 16, [0, 20, 40, 60, 80, 100, 120, 140], 5);
+let boostGauge = new Gauge("boost", "boost", -20, 20, 0, 0, 0, 0, 0, 0, [-20, -10, 0, 5, 10, 15, 20], 5);
+let fuelGauge = new Gauge("fuel", "fuel", 25, 50, 0, 0, 35, 38, 25, 35, [25, 30, 35, 40, 45, 50], 5);
+let widebandGauge = new Gauge("o2", "o2", 8, 20, 8, 12, 12, 16, 16, 20, [8, 10, 12, 14, 16, 18, 20], 10);
+let rpmGauge = new Gauge("rpm", "rpm", 0, 9000, 0, 0, 0, 0, 7200, 9000, [0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000], 5);
 
 function drawLineChart(){
     const ctx = document.getElementById('linechart').getContext('2d');
