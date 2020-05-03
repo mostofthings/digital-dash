@@ -1,7 +1,7 @@
 let SerialPort = require('serialport');
 let Readline = require('@serialport/parser-readline');
 let express = require('express');
-let port = new SerialPort('COM3');
+let port = new SerialPort('/dev/ttyACM0');
 
 let app = express();
 let server = app.listen(3000);
