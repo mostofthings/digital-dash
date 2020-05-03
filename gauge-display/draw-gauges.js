@@ -4,6 +4,8 @@ export default class Gauge {
     this.gauge = null;
     this.name = name;
     this.label = label;
+    this.min = min;
+    this.max = max;
     this.isSweepDone = false;
     
     const gaugeElement = document.createElement('div');
@@ -12,7 +14,7 @@ export default class Gauge {
     gaugeHolder.append(gaugeElement)
     
     this.gaugeOptions = {
-      width: 300, height: 300,
+      width: 350, height: 350,
       max: max,
       min: min,
       redFrom: redFrom, redTo: redTo,
@@ -37,22 +39,13 @@ export default class Gauge {
 	this.data.setValue(0, 1, this.gaugeOptions.min);
     this.gauge.draw(this.data, this.gaugeOptions);
 
-    setTimeout(() => {
-      this.data.setValue(0, 1, this.gaugeOptions.max);
-      this.gauge.draw(this.data, this.gaugeOptions);
-    }, 400)
-    setTimeout(() => {
-      this.data.setValue(0, 1, this.gaugeOptions.min);
-      this.gauge.draw(this.data, this.gaugeOptions);
-    }, 800)
-    setTimeout(() => this.isSweepDone = true, 1400);
+
 }
 
   updateGauge(value){
-  	if (this.isSweepDone) {
-  	  this.data.setValue(0, 1, Math.round(value));
-      this.gauge.draw(this.data, this.gaugeOptions);
-    }
+  	
+    this.data.setValue(0, 1, value);
+    this.gauge.draw(this.data, this.gaugeOptions);
   }
 
 }

@@ -34,11 +34,24 @@ function sendSensorData(data) {
     let type = reading.substring(0, 2);
     let valueString = reading.substring(2);
     let value = parseInt(valueString);
-    if (type === "WT") {
+    if (type === 'WT') {
       const unroundedTemp = getTempInF(value);
       readingsToSend.waterTemp = Math.round(unroundedTemp);
-    } else if (type === "OT") {
-      readingsToSend.oilTemp = value;
+    } else if (type === 'OP') {
+      oilPSI = value;
+      readingsToSend.oilPressure = oilPSI;
+    } else if (type === 'WB') {
+      let afr = value * .01161 + 7.312
+      readingsToSend.wideband = afr.toFixed(1);
+    } else if (type === 'BP') {
+      let boost = value * 0.04451 - 14.45;
+      readingsToSend.boostPressure = boost.toFixed(1);
+    } else if (type === 'ER') {
+      let rpm = value;
+      readingsToSend.rpm = rpm;
+    } else if (type === 'FP') {
+      let fuelPSI = value;
+      readingsToSend.fuelPressure = fuelPSI;
     }
   });
 
@@ -68,6 +81,6 @@ function sendSensorData(data) {
 
   readingsToSend.timestamp = new Date();
 
-  console.log(data);
+  console.log(readingsToSend);
   io.emit('sensor', readingsToSend);
 }
