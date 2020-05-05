@@ -39,12 +39,10 @@ export default class Gauge {
 	
 	this.data.setValue(0, 1, this.gaugeOptions.min);
     this.gauge.draw(this.data, this.gaugeOptions);
-
-
-}
+    
+  }
 
   updateGauge(value){
-  	
     this.data.setValue(0, 1, value);
     this.gauge.draw(this.data, this.gaugeOptions);
   }

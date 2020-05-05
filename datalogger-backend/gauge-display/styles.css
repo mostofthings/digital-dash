@@ -4,6 +4,14 @@
 	padding: 0;
 }
 
+html { 
+	cursor: none;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
 .slider {
 	scroll-snap-type: x mandatory;	
 	display: flex;
@@ -11,7 +19,6 @@
 	overflow-x: scroll;
 }
 section {
-	border-right: 1px solid white;
 	padding: 1rem;
 	min-width: 100vw;
 	height: 100vh;
