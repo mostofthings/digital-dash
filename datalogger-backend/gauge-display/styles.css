@@ -4,9 +4,9 @@
 	padding: 0;
 }
 
-html { 
+/* html { 
 	cursor: none;
-}
+} */
 
 ::-webkit-scrollbar {
     display: none;
@@ -40,8 +40,35 @@ h1 {
 }
 
 #gauges {
-	background: rgb(0,0,0);
-	background: linear-gradient(356deg, rgba(0,0,0,1) 0%, rgba(149,0,189,1) 100%);
+	/* background: rgb(0,0,0);
+	background: linear-gradient(356deg, rgba(0,0,0,1) 0%, rgba(149,0,189,1) 100%); */
+	background: linear-gradient(121deg, #6600aa, #260e36);
+	background-size: 400% 400%;
+	
+	-webkit-animation: AnimationName 15s ease infinite;
+	-moz-animation: AnimationName 15s ease infinite;
+	animation: AnimationName 15s ease infinite;
+		
+}
+
+@-webkit-keyframes AnimationName {
+	0%{background-position:0% 13%}
+	50%{background-position:100% 88%}
+	100%{background-position:0% 13%}
+}
+@-moz-keyframes AnimationName {
+	0%{background-position:0% 13%}
+	50%{background-position:100% 88%}
+	100%{background-position:0% 13%}
+}
+@keyframes AnimationName {
+	0%{background-position:0% 13%}
+	50%{background-position:100% 88%}
+	100%{background-position:0% 13%}
+}
+
+#chart {
+
 }
 
 .gauge {

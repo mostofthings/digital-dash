@@ -23,6 +23,9 @@ export default class Gauge {
       greenFrom: greenFrom, greenTo: greenTo,
       majorTicks: majorTicks,
       minorTicks: minorTicks,
+      redColor: '#EF0723',
+      greenColor: '#27FF27',
+      yellowColor: '#FFFF27',
     };
         
     google.charts.load('current', { 'packages': ['gauge'] });
@@ -39,7 +42,7 @@ export default class Gauge {
 	
 	this.data.setValue(0, 1, this.gaugeOptions.min);
     this.gauge.draw(this.data, this.gaugeOptions);
-    
+
   }
 
   updateGauge(value){
