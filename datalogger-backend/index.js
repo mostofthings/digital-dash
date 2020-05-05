@@ -18,7 +18,11 @@ let correspondingTemp = [80, 83, 86, 89, 91, 94, 98, 102, 106, 110, 114, 116, 11
   180, 182, 183, 185, 187, 188.5, 190, 192, 193, 195, 198, 199, 200, 203, 205, 209, 212,
   215, 220, 225, 230, 235, 240];
 
-app.use(express.static('public'));
+app.use(express.static('gauge-display'))
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/gauge-display/index.html');
+  });
+
 
 const parser = port.pipe(new Readline());
 parser.on('data', sendSensorData);
