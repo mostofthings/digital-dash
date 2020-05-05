@@ -10,6 +10,7 @@ export default class Gauge {
     
     const gaugeElement = document.createElement('div');
     gaugeElement.id = `gauge-${name}`;
+    gaugeElement.setAttribute('class', 'gauge');
     const gaugeHolder = document.getElementById('gauge-div');
     gaugeHolder.append(gaugeElement)
     

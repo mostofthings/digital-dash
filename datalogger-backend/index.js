@@ -85,6 +85,5 @@ function sendSensorData(data) {
 
   readingsToSend.timestamp = new Date();
 
-  console.log(readingsToSend);
   io.emit('sensor', readingsToSend);
 }

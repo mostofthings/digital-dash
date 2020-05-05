@@ -21,7 +21,7 @@ section {
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-	overflow-y: hidden;
+	overflow: hidden;
 }
 
 div{
@@ -34,10 +34,15 @@ h1 {
 
 #gauges {
 	background: rgb(0,0,0);
-	background: linear-gradient(356deg, rgba(0,0,0,1) 0%, rgba(201,0,255,1) 100%);
+	background: linear-gradient(356deg, rgba(0,0,0,1) 0%, rgba(149,0,189,1) 100%);
+}
+
+.gauge {
+	position: relative;
+	top: -20px;
 }
 
 #gauge-fuel, #gauge-o2, #gauge-rpm {
 	position: relative;
-	top: -20px;
+	top: -40px;
 } 
