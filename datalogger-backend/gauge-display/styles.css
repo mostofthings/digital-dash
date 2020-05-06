@@ -18,6 +18,7 @@
 	-webkit-overflow-scrolling: touch;
 	overflow-x: scroll;
 }
+
 section {
 	padding: 1rem;
 	min-width: 100vw;

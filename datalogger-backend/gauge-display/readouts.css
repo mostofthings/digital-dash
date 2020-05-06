@@ -1,0 +1,62 @@
+body {
+    font-family: sans-serif;
+}
+
+.readout {
+    height: 50px;
+    width: 110px;
+    background-color: white;
+    border: 3px solid black;
+    box-sizing: border-box;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 3px;
+    box-shadow: 1px 1px 4px 0px rgba(0,0,0,0.5);
+}
+
+.number-display {
+    width: 105px;
+    padding-right: 3px;
+    text-align: right;
+    font-size: 30px;
+}
+
+.readout-label {
+    position: relative;
+    top: -9px;
+    left: 2px;
+    font-size: 12px;
+}
+
+.color-corner {
+    position: relative;
+    height: 10px;
+    width: 10px;
+    top: -19.5px;
+    left: 94px;
+    clip-path: polygon(100% 100%, 0% 100%, 100% 0%);
+}
+
+#oil-psi-readout-indicator {
+    background-color: #0DF904;
+}
+
+#boost-readout-indicator {
+    background-color: #8E009E;
+}
+
+#rpm-readout-indicator {
+    background-color: #1E27FF;
+}
+
+#o2-readout-indicator {
+    background-color:#F61EFF;
+}
+
+#temp-readout-indicator {
+    background-color: #FF2929;
+}
+
+#g-readout-indicator {
+    background-color: #000000;
+}
