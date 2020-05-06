@@ -6,7 +6,7 @@ export default class Gmeter {
         // this.yAccel = 0;
         // this.zAccel = 0;
         this.y = 76;
-        this.x = 102;
+        this.x = 105;
         
 
         const gmeterElement = document.createElement('div');
@@ -47,10 +47,6 @@ export default class Gmeter {
 
         this.cursor.style.left = tempX + 'px';
         this.cursor.style.top = tempY + 'px';
-        console.log(this.y);
-        console.log(this.x);
-        console.log(yAccel);
-        console.log(xAccel);
     }
 
 

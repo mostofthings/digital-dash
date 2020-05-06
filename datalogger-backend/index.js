@@ -1,8 +1,14 @@
 let SerialPort = require('serialport');
 let Readline = require('@serialport/parser-readline');
 let express = require('express');
-let port = new SerialPort('COM3');
+let portString;
+if (process.platform === 'win32'){
+  portString = 'COM3';
+} else {
+  portString = '/dev/ttyACM0'
+};
 
+let port = new SerialPort(portString);
 let app = express();
 let server = app.listen(3000);
 let socket = require('socket.io');
@@ -133,6 +139,6 @@ function sendSensorData(data) {
 
   readingsToSend.timestamp = new Date();
 
-  console.log(readingsToSend);
+
   io.emit('sensor', readingsToSend);
 }

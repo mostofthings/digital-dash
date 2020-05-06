@@ -44,7 +44,7 @@
 #crosshairs-vertical {
     height: 218px;
     width: 3px;
-    left: 110px;
+    left: 111px;
     top: -222px;
 }
 
@@ -86,7 +86,7 @@
     border-radius: 50%;
     height: 15px;
     width: 15px;
-    left: 104px;
+    left: 105px;
     top: 76px;
     position: absolute;
     background: radial-gradient(circle at 5px 5px, #EF0723, rgb(53, 0, 0));
