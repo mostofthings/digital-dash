@@ -33,7 +33,7 @@ void loop() {
     fakeBoost = fakeBoost + 3;
     fakeAFR = fakeAFR + 5;
     fakeRPM = fakeRPM + 120;
-    if (counter >= 4){
+    if (counter >= 7){
       up = false;
       counter--;
     }
@@ -64,5 +64,5 @@ void loop() {
   rpm = (String)"ER" + fakeRPM;
   
   Serial.println(waterTemp + "," + oilPressure + "," + airFuelRatio + "," + fuelPressure + "," + boostPressure + "," + rpm);
-  delay(200);
+  delay(100);
 }
