@@ -25,7 +25,7 @@ window.onload = function () {
         }
     });
 
-    for (let i = 0; i < 4000; i++) {
+    for (let i = 0; i < 400; i++) {
         rollingTimestamp.push(new Date());
         rollingWaterTemp.push(0);
         rollingBoostPressure.push(0);
