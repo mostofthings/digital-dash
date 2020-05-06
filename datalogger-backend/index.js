@@ -1,7 +1,7 @@
 let SerialPort = require('serialport');
 let Readline = require('@serialport/parser-readline');
 let express = require('express');
-let port = new SerialPort('/dev/ttyACM0');
+let port = new SerialPort('COM3');
 
 let app = express();
 let server = app.listen(3000);
@@ -69,6 +69,14 @@ function sendSensorData(data) {
         let fuelPSI = value;
         readingsToSend.fuelPressure = fuelPSI;
         break;
+      case 'XA':
+        let xAccel = value / 100 / 9.806;
+        readingsToSend.xAcceleration = xAccel.toFixed(2);
+        break;
+      case 'YA':
+        let yAccel = value / 100 / 9.806;
+        readingsToSend.yAcceleration = yAccel.toFixed(2);
+        break;
       // default:
       //   console.log('sensor not found');
     }
@@ -125,5 +133,6 @@ function sendSensorData(data) {
 
   readingsToSend.timestamp = new Date();
 
+  console.log(readingsToSend);
   io.emit('sensor', readingsToSend);
 }
