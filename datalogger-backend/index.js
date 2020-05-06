@@ -86,31 +86,6 @@ function sendSensorData(data) {
       // default:
       //   console.log('sensor not found');
     }
-
-    // if (type === 'WT') {
-    //   const unroundedTemp = getTempInF(value);
-    //   readingsToSend.waterTemp = Math.round(unroundedTemp);
-    // } else if (type === 'OP') {
-    //   oilPSI = value;
-    //   readingsToSend.oilPressure = oilPSI;
-    // } else if (type === 'WB') {
-    //   let afr = value * .01161 + 7.312
-    //   readingsToSend.wideband = afr.toFixed(1);
-    // } else if (type === 'BP') {
-    //   if (value >=327){
-    //     let boost = value * 0.04451 - 14.45; //convert positive psi
-    //     readingsToSend.boostPressure = boost.toFixed(1);
-    //   } else if (value <327){
-    //     let boost = value * 0.09372 - 29.5; //convert negative inHg
-    //     readingsToSend.boostPressure = boost.toFixed(1);
-    //   }
-    // } else if (type === 'ER') {
-    //   let rpm = value;
-    //   readingsToSend.rpm = rpm;
-    // } else if (type === 'FP') {
-    //   let fuelPSI = value;
-    //   readingsToSend.fuelPressure = fuelPSI;
-    // }
   });
 
   function getTempInF(value) {
