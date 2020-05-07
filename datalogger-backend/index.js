@@ -14,6 +14,7 @@ let server = app.listen(3000);
 let socket = require('socket.io');
 let io = socket(server);
 
+
 let tempRawData = [536, 546, 562, 578, 589, 604, 626, 646, 666, 685, 704, 712, 718, 729,
   734, 747, 759, 771, 785, 796, 807, 818, 828, 837, 848, 861, 870, 880, 886, 894, 898,
   905, 908, 914, 917, 920, 923, 926, 928, 929, 933, 937, 939, 941, 944, 946, 950, 952,
@@ -59,13 +60,13 @@ function sendSensorData(data) {
         readingsToSend.wideband = afr.toFixed(1);
         break;
       case 'BP':
-        if (value >=327){
+        // if (value >=327){
           let boost = value * 0.04451 - 14.45; //convert positive psi
           readingsToSend.boostPressure = boost.toFixed(1);
-        } else if (value <327){
-          let boost = value * 0.09372 - 29.5; //convert negative inHg
-          readingsToSend.boostPressure = boost.toFixed(1);
-        }
+        // } else if (value <327){
+        //   let boost = value * 0.09372 - 29.5; //convert negative inHg
+        //   readingsToSend.boostPressure = boost.toFixed(1);
+        // }
         break;
       case 'ER':
         let rpm = value;
@@ -106,7 +107,7 @@ function sendSensorData(data) {
 
         return responseRange * percentile + responseMin;
 
-      } else if (value > 936) {
+      } else if (value > 977) {
         return 'error';
       }
     }
@@ -114,6 +115,5 @@ function sendSensorData(data) {
 
   readingsToSend.timestamp = new Date();
 
-  console.log(readingsToSend);
-  io.emit('sensor', readingsToSend);
+    io.emit('sensor', readingsToSend);
 }
