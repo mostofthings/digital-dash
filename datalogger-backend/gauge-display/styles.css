@@ -1,3 +1,17 @@
+@font-face {
+	font-family: 'DroidSansMono';
+	src: url("./lib/DroidSansMono.ttf") format('truetype');
+	font-style: normal;
+	font-weight: 100;
+}
+
+@font-face {
+	font-family: 'Montserrat';
+	src: url("./lib/Montserrat-Regular.ttf") format('truetype');
+	font-style: normal;
+	font-weight: 600;
+}
+
 * {
 	box-sizing: border-box;
 	margin: 0;
@@ -12,11 +26,9 @@
     display: none;
 }
 
-.slider {
-	scroll-snap-type: x mandatory;	
-	display: flex;
-	-webkit-overflow-scrolling: touch;
-	overflow-x: scroll;
+body {
+    font-family: 'DroidSansMono', sans-serif;
+	overflow: hidden;
 }
 
 section {
@@ -27,11 +39,6 @@ section {
 	position: relative;
 }
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-	overflow: hidden;
-}
-
 div{
     display: inline-block;
 }
@@ -39,6 +46,24 @@ div{
 h1 {
     font-size: 50px;
 }
+
+.slider {
+	scroll-snap-type: x mandatory;	
+	display: flex;
+	-webkit-overflow-scrolling: touch;
+	overflow-x: scroll;
+}
+
+#chart {
+	background-color: white;
+	transition: background-color 1.5s linear;
+}
+
+#chart.night {
+	background-color: black;
+}
+
+
 
 #gauges {
 	/* background: rgb(0,0,0);
@@ -81,3 +106,18 @@ h1 {
 	position: relative;
 	top: -40px;
 } 
+
+#night-mode {
+	display: inline-block;
+	height: 22px;
+	width: 22px;
+	top: -30px;
+	left: 132px;
+	margin: 6px;
+	color: black;
+	transition: color 1.5s linear;
+}
+
+#night-mode.night {
+	color: white;
+}
