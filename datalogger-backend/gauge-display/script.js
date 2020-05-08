@@ -3,7 +3,6 @@ import Gmeter from './g-meter.js';
 import Readout from './readouts.js';
 let chart;
 let chartInterval = 0;
-// let isSweepDone = true;
 let isSweepDone = false;
 let rollingWaterTemp = [];
 let rollingOilPressure = [];
@@ -90,7 +89,7 @@ let widebandGauge = new Gauge('o2', 'o2', 8, 20, 8, 12, 12, 16, 16, 20, [8, 10, 
 let rpmGauge = new Gauge('rpm', 'rpm', 0, 9000, 0, 0, 0, 0, 7200, 9000, [0, 1000, 2000, 3000, , 5000, 6000, 7000, 8000, 9000], 5);
 let gmeter = new Gmeter('main');
 
-let engineTempReadout = new Readout('temp-readout', 'Temp');
+let engineTempReadout = new Readout('temp-readout', 'temp');
 let oilPressureReadout = new Readout('oil-psi-readout', 'oil psi');
 let boostReadout = new Readout('boost-readout', 'boost');
 // let fuelReadout = new Readout('fuel-readout', 'fuel');
@@ -132,6 +131,7 @@ function drawLineChart() {
         },
         ticks: {
             maxTicksLimit: 8,
+            maxRotation: 0,
             autoSkip: true,
         }
     }];
@@ -159,7 +159,6 @@ function drawLineChart() {
         }
     }, {
         id: 'boost',
-        position: 'right',
         gridLines: {
             color: '#2e2e2e',
             borderDash: [2,8],
@@ -171,7 +170,6 @@ function drawLineChart() {
         }
     }, {
         id: 'afr',
-        position: 'right',
         gridLines: {
             color: '#2e2e2e',
             borderDash: [2,8],
@@ -183,7 +181,6 @@ function drawLineChart() {
         }
     }, {
         id: 'RPM',
-        position: 'right',
         gridLines: {
             color: '#2e2e2e',
             borderDash: [2,8],
@@ -195,7 +192,6 @@ function drawLineChart() {
         }
     }, {
         id: 'Gs',
-        position: 'right',
         gridLines: {
             color: '#2e2e2e',
             borderDash: [2,8],
@@ -246,15 +242,11 @@ function drawLineChart() {
                 yAxisID: 'Gs',
                 data: rollingGForce,
                 showLine: true,
-                borderColor: '#c7c7c7',
+                borderColor: '#949494',
             }]
         },
 
         options: {
-            hover: {
-                animationDuration: 0 // duration of animations when hovering an item
-            },
-            responsiveAnimationDuration: 0, // animation duration after a resize
             scales: {
                 xAxes,
                 yAxes,
@@ -266,11 +258,13 @@ function drawLineChart() {
 
 Chart.defaults.global.defaultFontColor = 'black';
 Chart.defaults.global.defaultFontFamily = 'Montserrat';
+Chart.defaults.global.tooltips.enabled = false;
 Chart.defaults.global.legend.display = false;
 Chart.defaults.global.elements.point.radius = 0;
 Chart.defaults.global.elements.line.fill = false;
-Chart.defaults.global.animation.duration = 500;
-console.log(Chart.defaults.global.elements.point);
+// Chart.defaults.global.animation.duration = 500;
+Chart.defaults.global.hover.animationDuration = 0;
+Chart.defaults.global.responsiveAnimationDuration = 0;
 
 let tempReadoutButton = document.getElementById('temp-readout');
 let oilPressureReadoutButton = document.getElementById('oil-psi-readout');
@@ -288,16 +282,15 @@ rpmReadoutButton.addEventListener('click', () => showHideLine(4));
 gReadoutButton.addEventListener('click', () => showHideLine(5));
 // fuelReadoutButton.addEventListener('click', () => showHideLine(6));
 
-function showHideLine(arrayPosition){
-    chart.data.datasets[arrayPosition].showLine = !chart.data.datasets[arrayPosition].showLine
-    console.log(chart.options);
-    if (chart.data.datasets[arrayPosition].showLine) {
+function showHideLine(index){
+    chart.data.datasets[index].showLine = !chart.data.datasets[index].showLine;
+    if (chart.data.datasets[index].showLine) {
         resetChartScales();
-        chart.options.scales.yAxes[arrayPosition].position = 'right';
-        chart.options.scales.yAxes[arrayPosition].display = true;
-        chart.options.scales.yAxes[arrayPosition].gridLines.borderDash = [2,8];
+        chart.options.scales.yAxes[index].position = 'right';
+        chart.options.scales.yAxes[index].display = true;
+        chart.options.scales.yAxes[index].gridLines.borderDash = [2,8];
     } else {
-        chart.options.scales.yAxes[arrayPosition].display = false;
+        chart.options.scales.yAxes[index].display = false;
     }
 }
 

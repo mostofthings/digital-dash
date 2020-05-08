@@ -8,7 +8,7 @@
     margin-left: 5px;
     margin-right: 5px;
     margin-top: 3px;
-    box-shadow: inset 2px 2px 2px rgba(30,30,30,.4);
+    box-shadow: inset 2px 2px 2px rgba(30,30,30,.4), 2px 2px 2px rgba(30,30,30,.4);
 }
 
 .readout.night {
@@ -83,7 +83,7 @@
 }
 
 #g-readout-indicator {
-    background-color: #c7c7c7;
+    background-color: #949494;
 }
 
 
@@ -109,5 +109,5 @@
 }
 
 #g-readout {
-    border-color: #c7c7c7;
+    border-color: #949494;
 }
