@@ -17,7 +17,7 @@ export default class Readout {
         return `
         <div class="outline">
             <div id="${this.name}-display" class="number-display">
-            
+            &nbsp;
             </div>
             <div class="readout-label">
                 ${this.label}
