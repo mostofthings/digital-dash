@@ -1,7 +1,6 @@
 const SerialPort = require('serialport');
 const Readline = require('@serialport/parser-readline');
 const express = require('express');
-const portString;
 const portString = process.platform === 'win32' ? 'COM3' : '/dev/ttyACM0';
 
 const port = new SerialPort(portString);
