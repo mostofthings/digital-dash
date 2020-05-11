@@ -1,25 +1,22 @@
-import Gauge from './draw-gauges.js';
+import Gauge from './gauge.js';
 import Gmeter from './g-meter.js';
 import Readout from './readouts.js';
 let chart;
 let chartInterval = 0;
-// let isSweepDone = true;
 let isSweepDone = false;
-let rollingWaterTemp = [];
-let rollingOilPressure = [];
-let rollingWideband = [];
-// let rollingFuelPressure = [];
-let rollingBoostPressure = [];
-let rollingRPM = [];
-let rollingGForce = [];
-let rollingTimestamp = [];
-
+const rollingWaterTemp = [];
+const rollingOilPressure = [];
+const rollingWideband = [];
+// const rollingFuelPressure = [];
+const rollingBoostPressure = [];
+const rollingRPM = [];
+const rollingGForce = [];
+const rollingTimestamp = [];
 
 
 window.onload = function () {
     const socket = io.connect('http://localhost:3000');
     socket.on('sensor', (data) => {
-        socket.emit('my other event', { my: 'data' });
         if (isSweepDone) {
             calculateAndDisplay(data);
         }
@@ -35,8 +32,6 @@ window.onload = function () {
         rollingWideband.push(0);
     }
 
-
-
     drawLineChart();
 }
 
@@ -49,7 +44,7 @@ function calculateAndDisplay(sensorData) {
     widebandGauge.updateGauge(sensorData.wideband);
     gmeter.updateGauge(sensorData.xAcceleration, sensorData.yAcceleration);
 
-    let totalGForce = Math.abs(sensorData.xAcceleration) + Math.abs(sensorData.yAcceleration);
+    const totalGForce = Math.abs(sensorData.xAcceleration) + Math.abs(sensorData.yAcceleration);
 
     if (chartInterval === 4){
         rollingWaterTemp.push(sensorData.waterTemp);
