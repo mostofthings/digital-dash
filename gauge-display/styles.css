@@ -20,9 +20,9 @@
 
 }
 
-/* html { 
+html { 
 	cursor: none;
-} */
+}
 
 ::-webkit-scrollbar {
     display: none;
