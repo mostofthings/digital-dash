@@ -19,15 +19,9 @@ parser.on('data', sendSensorData);
 
 io.sockets.on('connection', (socket) => console.log(socket.id));
 
-const tempRawData = [536, 546, 562, 578, 589, 604, 626, 646, 666, 685, 704, 712, 718, 729,
-  734, 747, 759, 771, 785, 796, 807, 818, 828, 837, 848, 861, 870, 880, 886, 894, 898,
-  905, 908, 914, 917, 920, 923, 926, 928, 929, 933, 937, 939, 941, 944, 946, 950, 952,
-  955, 960, 964, 969, 974, 978];
+const tempRawData = [16, 22, 29, 39, 51, 68, 90, 121, 162, 217, 291, 379, 483, 595, 708, 808, 884, 939];
 
-const correspondingTemp = [80, 83, 86, 89, 91, 94, 98, 102, 106, 110, 114, 116, 117, 120,
-  121, 124, 127, 130, 134, 137, 140, 144, 147, 150, 154, 159, 163, 167, 170, 174, 178,
-  180, 182, 183, 185, 187, 188.5, 190, 192, 193, 195, 198, 199, 200, 203, 205, 209, 212,
-  215, 220, 225, 230, 235, 240];
+const correspondingTemp = [302, 284, 266, 248, 230, 212, 194, 176, 158, 140, 122, 104, 86, 68, 50, 32, 14, -4];
 
 
 function sendSensorData(data) {
@@ -45,8 +39,9 @@ function sendSensorData(data) {
         readingsToSend.waterTemp = Math.round(unroundedTemp);
         break;
       case 'OP':
-        const oilPSI = value;
-        readingsToSend.oilPressure = oilPSI;
+        const oilPSI = value * .18 - 18.75;
+        readingsToSend.oilPressure = Math.round(oilPSI);
+        console.log(readingsToSend.oilPressure);
         break;
       case 'WB':
         const afr = value * .01161 + 7.312
@@ -84,24 +79,19 @@ function sendSensorData(data) {
 
 function getTempInF(value) {
   for (let i = 0; i < tempRawData.length - 1; i++) {
-    if (value < 536) {
-      return 80
-    } else if (value >= tempRawData[i] && value < tempRawData[i + 1]) {
-      let sensorMax = tempRawData[i + 1];
-      let sensorMin = tempRawData[i];
-      let sensorRange = sensorMax - sensorMin;
-      let differenceToReading = value - sensorMin;
+  if (value >= tempRawData[i] && value < tempRawData[i + 1]) {
+      const sensorMax = tempRawData[i + 1];
+      const sensorMin = tempRawData[i];
+      const sensorRange = sensorMax - sensorMin;
+      const differenceToReading = value - sensorMin;
 
-      let percentile = differenceToReading / sensorRange;
+      const percentile = differenceToReading / sensorRange;
 
-      let responseMax = correspondingTemp[i + 1];
-      let responseMin = correspondingTemp[i];
-      let responseRange = responseMax - responseMin;
+      const responseMax = correspondingTemp[i + 1];
+      const responseMin = correspondingTemp[i];
+      const responseRange = responseMax - responseMin;
 
       return responseRange * percentile + responseMin;
-
-    } else if (value > 977) {
-      return 'error';
     }
   }
 }
