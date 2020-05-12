@@ -35,7 +35,8 @@ window.onload = function () {
     if (localStorage.getItem('xOffset')){ //check for local gmeter reset
         accelXOffset = localStorage.getItem('xOffset');
         accelYOffset = localStorage.getItem('yOffset');
-
+        console.log(localStorage.getItem('xOffset'));
+        console.log(localStorage.getItem('yOffset'));
     }
 
     drawLineChart();

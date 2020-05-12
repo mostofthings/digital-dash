@@ -5,9 +5,9 @@
 }
 
 .crosshairs {
-    background-color: black;
+    background-color:#333333;
     position: relative;
-    box-shadow: 0 0 1px #000000;
+    box-shadow: 0 0 1px black;
 }
 
 .outer-ring {
@@ -16,10 +16,9 @@
 }
 
 .g-ring {
-    background-color: white;
     box-sizing: border-box;
     border-radius: 50%;
-    border: 3px solid black;
+    border: 3px solid #333333;
 }
 
 .label {
@@ -63,7 +62,7 @@
 #g-diameter {
     height: 226px;
     width: 226px;
-    box-shadow: inset 0 0 2px #000000;
+    box-shadow: inset 0 0 2px #333333;
     border-color: #cccccc;
 }
 
@@ -73,7 +72,7 @@
     width: 169.5px;
     top: 23px;
     left: 55.5px;
-    box-shadow: 0 0 2px #000000;
+    box-shadow: 0 0 2px #333333;
 }
 
 #inner-ring {
@@ -82,7 +81,7 @@
     position: relative;
     top: 25.25px;
     left: 25.25px;
-    box-shadow: 0 0 2px #000000;
+    box-shadow: 0 0 2px #333333;
 }
 
 #cursor {

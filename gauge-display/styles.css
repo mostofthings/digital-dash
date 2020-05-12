@@ -83,6 +83,10 @@ h1 {
 		
 }
 
+#gauges.night {
+	background: black;
+}
+
 @-webkit-keyframes AnimationName {
 	0%{background-position:0% 13%}
 	50%{background-position:100% 88%}

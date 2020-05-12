@@ -5,12 +5,12 @@ export default class Gmeter {
         // this.xAccel = 0;
         // this.yAccel = 0;
         // this.zAccel = 0;
-        this.y = 76;
-        this.x = 105;
+        this.y = 117;
+        this.x = 117.5;
         
         const gmeterElement = document.createElement('div');
         gmeterElement.id = `gmeter-${name}`;
-        gmeterElement.setAttribute('class', 'gmeter');
+        gmeterElement.setAttribute('class', 'gmeter gauge-face');
         gmeterElement.innerHTML = this.getScaffoldHtml();
         const gaugeHolder = document.getElementById('gauge-div');
         gaugeHolder.append(gmeterElement);

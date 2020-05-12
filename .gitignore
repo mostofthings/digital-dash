@@ -1,6 +1,6 @@
 #untrack files
-datalogger-backend/node_modules
-datalogger-backend/package-lock.json
+node_modules
+package-lock.json
 archive/
-datalogger-backend/gauge-display/charts
-datalogger-backend/gauge-display/lib
+gauge-display/charts
+gauge-display/lib
