@@ -1,13 +1,18 @@
 .gmeter {
     display: inline-block;
     position: absolute;
-    margin-left: 10px;
+    margin-top: -40.5px;
 }
 
 .crosshairs {
     background-color: black;
     position: relative;
     box-shadow: 0 0 1px #000000;
+}
+
+.outer-ring {
+    position: relative;
+    top: -40px;
 }
 
 .g-ring {
@@ -23,7 +28,7 @@
 
 #meter-holder {
     top: -29px;
-    left: -10px;
+    left: -15px;
 }
 
 #half-g {
@@ -41,17 +46,17 @@
 }
 
 #crosshairs-vertical {
-    height: 218px;
+    height: 203px;
     width: 3px;
-    left: 111px;
-    top: -222px;
+    left: -40px;
+    top: 93px;
 }
 
 #crosshairs-horizontal {
     height: 3px;
-    width: 217px;
-    top: -350.5px;
-    left: 4px;
+    width: 203px;
+    top: -78.5px;
+    left: 38px;
 
 }
 
@@ -66,8 +71,8 @@
     position: relative;
     height: 169.5px;
     width: 169.5px;
-    top: 25.25px;
-    left: 25.25px;
+    top: 23px;
+    left: 55.5px;
     box-shadow: 0 0 2px #000000;
 }
 
@@ -85,8 +90,8 @@
     border-radius: 50%;
     height: 15px;
     width: 15px;
-    left: 105px;
-    top: 76px;
+    left: 117.5px;
+    top: 117px;
     position: absolute;
     background: radial-gradient(circle at 5px 5px, #EF0723, rgb(53, 0, 0));
     /* box-shadow: 0 0 2px #000000; */

@@ -262,7 +262,7 @@ Chart.defaults.global.tooltips.enabled = false;
 Chart.defaults.global.legend.display = false;
 Chart.defaults.global.elements.point.radius = 0;
 Chart.defaults.global.elements.line.fill = false;
-// Chart.defaults.global.animation.duration = 500;
+Chart.defaults.global.animation.duration = 0;
 Chart.defaults.global.hover.animationDuration = 0;
 Chart.defaults.global.responsiveAnimationDuration = 0;
 
