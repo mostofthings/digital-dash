@@ -41,7 +41,6 @@ function sendSensorData(data) {
       case 'OP':
         const oilPSI = value * .18 - 18.75;
         readingsToSend.oilPressure = Math.round(oilPSI);
-        console.log(readingsToSend.oilPressure);
         break;
       case 'WB':
         const afr = value * .01161 + 7.312
