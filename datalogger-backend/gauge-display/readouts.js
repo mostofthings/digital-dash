@@ -28,10 +28,6 @@ export default class Readout {
         `;
     }
 
-    selectAxisLabel(){
-
-    };
-
     updateReadout(data){
         this.displayElement.innerText = data;
     }

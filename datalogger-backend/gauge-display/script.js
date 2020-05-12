@@ -1,22 +1,17 @@
-import Gauge from './draw-gauges.js';
+import Gauge from './gauge.js';
 import Gmeter from './g-meter.js';
 import Readout from './readouts.js';
+import { xAxes, yAxes, chartData, engineTempDataset, oilPressureDataset, 
+    widebandDataset, rpmDataset, gforceDataset, boostPressureDataset } from './chart-settings.js';
 let chart;
 let chartInterval = 0;
 let isSweepDone = false;
-let rollingWaterTemp = [];
-let rollingOilPressure = [];
-let rollingWideband = [];
-// let rollingFuelPressure = [];
-let rollingBoostPressure = [];
-let rollingRPM = [];
-let rollingGForce = [];
-let rollingTimestamp = [];
+
+const rollingTimestamp = [];
 
 window.onload = function () {
     const socket = io.connect('http://localhost:3000');
     socket.on('sensor', (data) => {
-        socket.emit('my other event', { my: 'data' });
         if (isSweepDone) {
             calculateAndDisplay(data);
         }
@@ -24,13 +19,13 @@ window.onload = function () {
 
     for (let i = 0; i < 400; i++) {
         rollingTimestamp.push(new Date());
-        rollingWaterTemp.push(0);
-        rollingBoostPressure.push(0);
-        rollingGForce.push(0);
-        rollingOilPressure.push(0);
-        rollingRPM.push(0);
-        rollingWideband.push(0);
-    }
+        engineTempDataset.data.push(0);
+        boostPressureDataset.data.push(0);
+        gforceDataset.data.push(0);
+        oilPressureDataset.data.push(0);
+        rpmDataset.data.push(0);
+        widebandDataset.data.push(0);
+    };
 
     drawLineChart();
 }
@@ -44,23 +39,23 @@ function calculateAndDisplay(sensorData) {
     widebandGauge.updateGauge(sensorData.wideband);
     gmeter.updateGauge(sensorData.xAcceleration, sensorData.yAcceleration);
 
-    let totalGForce = Math.abs(sensorData.xAcceleration) + Math.abs(sensorData.yAcceleration);
+    const totalGForce = Math.abs(sensorData.xAcceleration) + Math.abs(sensorData.yAcceleration);
 
     if (chartInterval === 4){
-        rollingWaterTemp.push(sensorData.waterTemp);
-        rollingWaterTemp.shift();
-        rollingOilPressure.push(sensorData.oilPressure);
-        rollingOilPressure.shift();
-        rollingWideband.push(sensorData.wideband);
-        rollingWideband.shift();
+        engineTempDataset.data.push(sensorData.waterTemp);
+        engineTempDataset.data.shift();
+        oilPressureDataset.data.push(sensorData.oilPressure);
+        oilPressureDataset.data.shift();
+        widebandDataset.data.push(sensorData.wideband);
+        widebandDataset.data.shift();
         // rollingFuelPressure.push(sensorData.fuelPressure);
         // rollingFuelPressure.shift();
-        rollingBoostPressure.push(sensorData.boostPressure);
-        rollingBoostPressure.shift();
-        rollingRPM.push(sensorData.rpm);
-        rollingRPM.shift();
-        rollingGForce.push(totalGForce.toFixed(2));
-        rollingGForce.shift();
+        boostPressureDataset.data.push(sensorData.boostPressure);
+        boostPressureDataset.data.shift();
+        rpmDataset.data.push(sensorData.rpm);
+        rpmDataset.data.shift();
+        gforceDataset.data.push(totalGForce.toFixed(2));
+        gforceDataset.data.shift();
         rollingTimestamp.push(new Date(sensorData.timestamp));
         rollingTimestamp.shift();
 
@@ -117,134 +112,11 @@ setTimeout(() => {
 setTimeout(() => isSweepDone = true, 1400);
 
 function drawLineChart() {
-    const xAxes = [{
-        type: 'time',
-        distribution: 'series',
-        gridLines: {
-            color: '#2e2e2e',
-        },
-        time: {
-            displayFormats: {
-                second: 'h:mm'
-            },
-            unit: 'second',
-        },
-        ticks: {
-            maxTicksLimit: 8,
-            maxRotation: 0,
-            autoSkip: true,
-        }
-    }];
 
-    const yAxes = [{
-        id: 'deg',
-        position: 'left',
-        gridLines: {
-            color: '#9c9c9c',
-        },
-        ticks: {
-            max: 240,
-            min: 0,
-        }
-    }, {
-        id: 'oil-psi',
-        position: 'right',
-        gridLines: {
-            color: '#2e2e2e',
-            borderDash: [2,8],
-        },
-        ticks: {
-            max: 180,
-            min: 0,
-        }
-    }, {
-        id: 'boost',
-        gridLines: {
-            color: '#2e2e2e',
-            borderDash: [2,8],
-        },
-        display: false,
-        ticks: {
-            max: 14,
-            min: -14,
-        }
-    }, {
-        id: 'afr',
-        gridLines: {
-            color: '#2e2e2e',
-            borderDash: [2,8],
-        },
-        display: false,
-        ticks: {
-            max: 20,
-            min: 8,
-        }
-    }, {
-        id: 'RPM',
-        gridLines: {
-            color: '#2e2e2e',
-            borderDash: [2,8],
-        },
-        display: false,
-        ticks: {
-            max: 9000,
-            min: 0,
-        }
-    }, {
-        id: 'Gs',
-        gridLines: {
-            color: '#2e2e2e',
-            borderDash: [2,8],
-        },
-        display: false,
-        ticks: {
-            max: 2,
-            min: 0,
-        }
-    }];
-
-    const ctx = document.getElementById('linechart').getContext('2d');
-    chart = new Chart(ctx, {
+    const chartContext = document.getElementById('linechart').getContext('2d');
+    chart = new Chart(chartContext, {
         type: 'line',
-        data: {
-            datasets: [{
-                label: 'Engine Temp',
-                yAxisID: 'deg',
-                data: rollingWaterTemp,
-                showLine: true,
-                borderColor: '#FF0061',
-            }, {
-                label: 'Oil PSI',
-                yAxisID: 'oil-psi',
-                data: rollingOilPressure,
-                showLine: true,
-                borderColor: '#FFAA00',
-            }, {
-                label: 'Boost',
-                yAxisID: 'boost',
-                data: rollingBoostPressure,
-                showLine: true,
-                borderColor: '#8AE800',
-            }, {
-                label: 'Wideband',
-                yAxisID: 'afr',
-                data: rollingWideband,
-                showLine: true,
-                borderColor: '#7734EA',
-            }, {
-                label: 'RPM',
-                yAxisID: 'RPM',
-                data: rollingRPM,
-                showLine: true,
-                borderColor: '#00A7EA',
-            }, {
-                label: 'G-force',
-                yAxisID: 'Gs',
-                data: rollingGForce,
-                showLine: true,
-                borderColor: '#949494',
-            }]
-        },
+        data: chartData,
 
         options: {
             scales: {
@@ -255,17 +127,6 @@ function drawLineChart() {
     });
 }
 
-
-Chart.defaults.global.defaultFontColor = 'black';
-Chart.defaults.global.defaultFontFamily = 'Montserrat';
-Chart.defaults.global.tooltips.enabled = false;
-Chart.defaults.global.legend.display = false;
-Chart.defaults.global.elements.point.radius = 0;
-Chart.defaults.global.elements.line.fill = false;
-Chart.defaults.global.animation.duration = 0;
-Chart.defaults.global.hover.animationDuration = 0;
-Chart.defaults.global.responsiveAnimationDuration = 0;
-
 let tempReadoutButton = document.getElementById('temp-readout');
 let oilPressureReadoutButton = document.getElementById('oil-psi-readout');
 let boostReadoutButton = document.getElementById('boost-readout');
@@ -274,27 +135,30 @@ let rpmReadoutButton = document.getElementById('rpm-readout');
 let gReadoutButton = document.getElementById('g-readout');
 // let fuelReadoutButton = document.getElementById('fuel-readout');
 
-tempReadoutButton.addEventListener('click', () => showHideLine(0));
-oilPressureReadoutButton.addEventListener('click', () => showHideLine(1));
-boostReadoutButton.addEventListener('click', () => showHideLine(2));
-o2ReadoutButton.addEventListener('click', () => showHideLine(3));
-rpmReadoutButton.addEventListener('click', () => showHideLine(4));
-gReadoutButton.addEventListener('click', () => showHideLine(5));
+tempReadoutButton.addEventListener('click', () => showHideLine(engineTempDataset));
+oilPressureReadoutButton.addEventListener('click', () => showHideLine(oilPressureDataset));
+boostReadoutButton.addEventListener('click', () => showHideLine(boostPressureDataset));
+o2ReadoutButton.addEventListener('click', () => showHideLine(widebandDataset));
+rpmReadoutButton.addEventListener('click', () => showHideLine(rpmDataset));
+gReadoutButton.addEventListener('click', () => showHideLine(gforceDataset));
 // fuelReadoutButton.addEventListener('click', () => showHideLine(6));
 
-function showHideLine(index){
-    chart.data.datasets[index].showLine = !chart.data.datasets[index].showLine;
-    if (chart.data.datasets[index].showLine) {
-        resetChartScales();
-        chart.options.scales.yAxes[index].position = 'right';
-        chart.options.scales.yAxes[index].display = true;
-        chart.options.scales.yAxes[index].gridLines.borderDash = [2,8];
+function showHideLine(dataset){
+    dataset.showLine = !dataset.showLine;
+    const matchingYAxisIndex = yAxes.findIndex(yAxis => yAxis.id === dataset.yAxisID);
+    const matchingYAxis = chart.options.scales.yAxes[matchingYAxisIndex];
+    if (dataset.showLine) {
+        resetChartScales(matchingYAxis);
+        matchingYAxis.position = 'right';
+        matchingYAxis.display = true;
+        matchingYAxis.gridLines.borderDash = [2,8];
     } else {
-        chart.options.scales.yAxes[index].display = false;
+        matchingYAxis.display = false;
     }
 }
 
 function resetChartScales(){
+
     for (let i = 0; i < 6; i++){
         if (chart.options.scales.yAxes[i].position === 'left'){
             chart.options.scales.yAxes[i].display = false;
@@ -305,47 +169,41 @@ function resetChartScales(){
             chart.options.scales.yAxes[i].gridLines.color = '#9c9c9c';
             chart.options.scales.yAxes[i].gridLines.borderDash = [];
         }
-
     }
-    
+
 }
 
 let night = false;
 
-let nightModeButton = document.getElementById('night-mode');
-let chartBackground = document.getElementById('chart');
-let readoutElements = document.getElementsByClassName('readout');
-let readoutLabelElements = document.getElementsByClassName('readout-label');
-let readoutDisplayElements = document.getElementsByClassName('number-display');
-
+const nightModeButton = document.getElementById('night-mode');
 nightModeButton.addEventListener('click', switchNight);
 
-
-
 function switchNight(event){
+    let chartBackground = document.getElementById('chart');
+    let readoutElements = document.querySelectorAll('.readout');
+    let readoutLabelElements = document.querySelectorAll('.readout-label');
+    let readoutDisplayElements = document.querySelectorAll('.number-display');
+
     if (night) { //switching to day
         nightModeButton.classList.remove('icono-sun');
         nightModeButton.classList.remove('night');
         nightModeButton.classList.add('icono-moon');
         chartBackground.classList.remove('night');
-        for (let i = 0; i < readoutLabelElements.length; i++){readoutLabelElements[i].classList.remove('night');}
-        for (let i = 0; i < readoutElements.length; i++){readoutElements[i].classList.remove('night');}
-        for (let i = 0; i < readoutDisplayElements.length; i++){readoutDisplayElements[i].classList.remove('night');}
+        readoutLabelElements.forEach(readoutLabel => readoutLabel.classList.remove('night'));
+        readoutElements.forEach(readoutElement => readoutElement.classList.remove('night'));
+        readoutDisplayElements.forEach(displayElement => displayElement.classList.remove('night'));
         Chart.defaults.global.defaultFontColor = 'black';
-
-
     } else { //switching to night
         nightModeButton.classList.remove('icono-moon');
         nightModeButton.classList.add('night');
         nightModeButton.classList.add('icono-sun');
         chartBackground.classList.add('night');
-        for (let i = 0; i < readoutLabelElements.length; i++){readoutLabelElements[i].classList.add('night');}
-        for (let i = 0; i < readoutElements.length; i++){readoutElements[i].classList.add('night');}
-        for (let i = 0; i < readoutDisplayElements.length; i++){readoutDisplayElements[i].classList.add('night');}
+        readoutLabelElements.forEach(readoutLabel => readoutLabel.classList.add('night'));
+        readoutElements.forEach(readoutElement => readoutElement.classList.add('night'));
+        readoutDisplayElements.forEach(displayElement => displayElement.classList.add('night'));
         Chart.defaults.global.defaultFontColor = 'white';
-
-
     }
+
     night= !night;
 }
 

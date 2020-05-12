@@ -8,7 +8,6 @@ export default class Gmeter {
         this.y = 76;
         this.x = 105;
         
-
         const gmeterElement = document.createElement('div');
         gmeterElement.id = `gmeter-${name}`;
         gmeterElement.setAttribute('class', 'gmeter');
@@ -16,8 +15,6 @@ export default class Gmeter {
         const gaugeHolder = document.getElementById('gauge-div');
         gaugeHolder.append(gmeterElement);
         this.cursor = document.getElementById("cursor");
-
-
     }
 
     getScaffoldHtml() {
@@ -46,17 +43,10 @@ export default class Gmeter {
 `;
     }
 
-
-
-
     updateGauge(xAccel, yAccel) {
         const tempY = (yAccel * 81) + this.y;
         const tempX = -1 * (xAccel * 81) + this.x;
-
-
         this.cursor.style.left = tempX + 'px';
         this.cursor.style.top = tempY + 'px';
     }
-
-
 }

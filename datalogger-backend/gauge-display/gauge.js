@@ -27,7 +27,7 @@ export default class Gauge {
       greenColor: '#27FF27',
       yellowColor: '#FFFF27',
     };
-        
+    
     google.charts.load('current', { 'packages': ['gauge'] });
     google.charts.setOnLoadCallback(() => this.setupGauge());
   }
@@ -38,11 +38,10 @@ export default class Gauge {
       [this.label, 0],
     ]);
     
-	this.gauge = new google.visualization.Gauge(document.getElementById(`gauge-${this.name}`));
-	
-	this.data.setValue(0, 1, this.gaugeOptions.min);
+    this.gauge = new google.visualization.Gauge(document.getElementById(`gauge-${this.name}`));
+    
+    this.data.setValue(0, 1, this.gaugeOptions.min);
     this.gauge.draw(this.data, this.gaugeOptions);
-
   }
 
   updateGauge(value){

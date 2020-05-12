@@ -1,0 +1,26 @@
+{
+  "name": "datalogger-backend",
+  "version": "1.0.0",
+  "description": "a node.js server that receives serial input from Arduino and passes it off through a websocket",
+  "main": "index.js",
+  "dependencies": {
+    "brain.js": "^2.0.0-alpha.12",
+    "express": "^4.17.1",
+    "serialport": "^8.0.7",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mostofthings/digital-dash.git"
+  },
+  "author": "Jay Schroeder",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mostofthings/digital-dash/issues"
+  },
+  "homepage": "https://github.com/mostofthings/digital-dash#readme"
+}
