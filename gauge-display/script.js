@@ -57,7 +57,7 @@ function calculateAndDisplay(sensorData) {
     currentAccelX = sensorData.xAcceleration;
     currentAccelY = sensorData.yAcceleration;
 
-    if (chartInterval === 4){
+    if (chartInterval === 9){
         engineTempDataset.data.push(sensorData.waterTemp);
         engineTempDataset.data.shift();
         oilPressureDataset.data.push(sensorData.oilPressure);

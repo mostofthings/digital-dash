@@ -21,8 +21,8 @@ bool up = true;
 void setup() {
   Serial.begin(9600);
   counter = 0;
-  fakeWaterTemp = 905;
-  fakeOilPressure = 80;
+  fakeWaterTemp = 322;
+  fakeOilPressure = 409;
   fakeFuelPressure = 35;
   fakeBoost = 101;
   fakeGForceX = 10;
@@ -34,7 +34,7 @@ void setup() {
 void loop() {
   if (up){
     fakeWaterTemp = fakeWaterTemp + 3;
-    fakeOilPressure++;
+    fakeOilPressure = fakeOilPressure + 3;
     fakeFuelPressure = fakeFuelPressure + 1;
     fakeBoost = fakeBoost + 3;
     fakeAFR = fakeAFR + 5;
@@ -50,7 +50,7 @@ void loop() {
     }
   } else {
     fakeWaterTemp = fakeWaterTemp - 3;
-    fakeOilPressure--;
+    fakeOilPressure = fakeOilPressure - 3;
     fakeFuelPressure = fakeFuelPressure - 1;
     fakeBoost = fakeBoost - 3;
     fakeAFR = fakeAFR -5;
