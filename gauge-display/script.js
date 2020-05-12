@@ -1,6 +1,6 @@
 import Gauge from './gauge.js';
-import Gmeter from './g-meter.js';
-import Readout from './readouts.js';
+import Gmeter from './g-meter/g-meter.js';
+import Readout from './readouts/readouts.js';
 import { xAxes, yAxes, chartData, engineTempDataset, oilPressureDataset, 
     widebandDataset, rpmDataset, gforceDataset, boostPressureDataset } from './chart-settings.js';
 let chart;
