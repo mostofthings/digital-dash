@@ -22,7 +22,7 @@ window.onload = function () {
         }
     });
 
-    for (let i = 0; i < 400; i++) {
+    for (let i = 0; i < 600; i++) {
         rollingTimestamp.push(new Date());
         engineTempDataset.data.push(0);
         boostPressureDataset.data.push(0);
