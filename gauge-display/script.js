@@ -51,7 +51,7 @@ function calculateAndDisplay(sensorData) {
     const offsetYAccel = sensorData.yAcceleration - accelYOffset
     gmeter.updateGauge(offsetXAccel, offsetYAccel);
 
-    const conditionedRPM;
+    let conditionedRPM = 0;
     if (sensorData.rpm < 3 * rpmDataset[loggingMax]){
         conditionedRPM = sensorData.rpm;
     } else {
