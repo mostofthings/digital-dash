@@ -10,8 +10,8 @@ let currentAccelX;
 let currentAccelY;
 let accelXOffset = 0;
 let accelYOffset = 0;
-let loggingMax = 800;
-
+const loggingMax = 800;
+let lastGoodRPMValue;
 
 const rollingTimestamp = [];
 
@@ -51,12 +51,20 @@ function calculateAndDisplay(sensorData) {
     const offsetYAccel = sensorData.yAcceleration - accelYOffset
     gmeter.updateGauge(offsetXAccel, offsetYAccel);
 
-    let conditionedRPM = 0;
-    if (sensorData.rpm < 3 * rpmDataset[loggingMax]){
-        conditionedRPM = sensorData.rpm;
+    let conditionedRPM;
+    if (sensorData.rpm > 300 && lastGoodRPMValue > 300){
+        if (sensorData.rpm  > lastGoodRPMValue * 2){
+            conditionedRPM = lastGoodRPMValue;
+        } else {
+            conditionedRPM = sensorData.rpm;
+            lastGoodRPMValue = sensorData.rpm;
+        }
     } else {
-        conditionedRPM = rpmDataset[loggingMax];
+        lastGoodRPMValue = sensorData.rpm;
+        conditionedRPM = sensorData.rpm;
     }
+    conditionedRPM = sensorData.rpm;
+
     rpmGauge.updateGauge(conditionedRPM);
 
     const totalGForce = Math.abs(sensorData.xAcceleration - accelXOffset) + Math.abs(sensorData.yAcceleration - accelYOffset);

@@ -40,7 +40,7 @@ function sendSensorData(data) {
         break;
       case 'OP':
         const oilPSI = value * .18 - 18.75;
-        if (oilPSI > 104){
+        if (oilPSI > 0){
         readingsToSend.oilPressure = Math.round(oilPSI);
         } else {
           readingsToSend.oilPressure = 0;
