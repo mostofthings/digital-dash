@@ -51,9 +51,13 @@ function sendSensorData(data) {
         readingsToSend.boostPressure = boost.toFixed(1);
         break;
       case 'ER':
-        const periodInSeconds = value * 2 / 1000000;
+        const periodInSeconds = value * 3 / 1000000;
         const rpm = 60 / periodInSeconds;
-        readingsToSend.rpm = rpm;
+        if (!rpm){
+          rpm = 0;
+        };
+        const roundedRPM = Math.round(rpm);
+        readingsToSend.rpm = roundedRPM;
         break;
       case 'FP':
         const fuelPSI = value;
