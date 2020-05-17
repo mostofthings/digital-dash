@@ -52,7 +52,7 @@ function calculateAndDisplay(sensorData) {
     gmeter.updateGauge(offsetXAccel, offsetYAccel);
 
     const conditionedRPM;
-    if (sensorData.rpm < 2 * rpmDataset[loggingMax]){
+    if (sensorData.rpm < 3 * rpmDataset[loggingMax]){
         conditionedRPM = sensorData.rpm;
     } else {
         conditionedRPM = rpmDataset[loggingMax];
@@ -97,7 +97,7 @@ function calculateAndDisplay(sensorData) {
     widebandReadout.updateReadout(sensorData.wideband);
     gmeterReadout.updateReadout(totalGForce.toFixed(2));
     rpmReadout.updateReadout(conditionedRPM);
-    if (sensorData.boostPressure > 0){
+    if (sensorData.boostPressure >= -10){
         boostReadout.updateReadout(sensorData.boostPressure);
     } else {
         boostReadout.updateReadout(Math.round(sensorData.boostPressure));
