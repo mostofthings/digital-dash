@@ -45,7 +45,7 @@ void loop() {
   airFuelRatio = (String) "WB" + rawValue;
   
 
-  duration = pulseIn(7, HIGH, 100000); // set for min of 500 RPM
+  duration = pulseIn(7, HIGH, 80000); // set for min of 500 RPM
   rpm = (String) "ER" + duration;
 
   rawValue = event.acceleration.x * 100;
