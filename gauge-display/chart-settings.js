@@ -54,7 +54,7 @@ const yAxes = [{
         borderDash: [2,8],
     },
     ticks: {
-        max: 180,
+        max: 150,
         min: 0,
     }
 }, {
@@ -98,7 +98,7 @@ const yAxes = [{
     },
     display: false,
     ticks: {
-        max: 2,
+        max: 4,
         min: 0,
     }
 }];
