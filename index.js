@@ -51,7 +51,7 @@ function sendSensorData(data) {
         readingsToSend.boostPressure = boost.toFixed(1);
         break;
       case 'ER':
-        const periodInSeconds = value * 3 / 1000000;
+        const periodInSeconds = value * 3.5 / 1000000;
         const rpm = 60 / periodInSeconds;
         if (!rpm){
           rpm = 0;
