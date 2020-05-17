@@ -50,11 +50,14 @@ function calculateAndDisplay(sensorData) {
     const offsetXAccel = sensorData.xAcceleration - accelXOffset
     const offsetYAccel = sensorData.yAcceleration - accelYOffset
     gmeter.updateGauge(offsetXAccel, offsetYAccel);
+
+    const conditionedRPM;
     if (sensorData.rpm < 2 * rpmDataset[loggingMax]){
-        rpmGauge.updateGauge(sensorData.rpm);
+        conditionedRPM = sensorData.rpm;
     } else {
-        rpmGauge.updateGauge(rpmDataset[loggingMax]);
+        conditionedRPM = rpmDataset[loggingMax];
     }
+    rpmGauge.updateGauge(conditionedRPM);
 
     const totalGForce = Math.abs(sensorData.xAcceleration - accelXOffset) + Math.abs(sensorData.yAcceleration - accelYOffset);
     currentAccelX = sensorData.xAcceleration;
@@ -77,13 +80,8 @@ function calculateAndDisplay(sensorData) {
         gforceDataset.data.shift();
         rollingTimestamp.push(new Date(sensorData.timestamp));
         rollingTimestamp.shift();
-        if (sensorData.rpm < 2 * rpmDataset[loggingMax]){
-            rpmDataset.data.push(sensorData.rpm);
-            rpmDataset.data.shift();
-        } else {
-            rpmDataset.data.push(rpmDataset[loggingMax]);
-            rpmDataset.data.shift();
-        };
+        rpmDataset.data.push(conditionedRPM);
+        rpmDataset.data.shift();
 
         chart.data.labels = rollingTimestamp;
         chart.update();
@@ -98,11 +96,7 @@ function calculateAndDisplay(sensorData) {
     // fuelReadout.updateReadout(sensorData.fuelPressure);
     widebandReadout.updateReadout(sensorData.wideband);
     gmeterReadout.updateReadout(totalGForce.toFixed(2));
-    if (sensorData.rpm < 2 * rpmDataset[loggingMax]){
-        rpmReadout.updateReadout(sensorData.rpm);
-    } else {
-        rpmReadout.updateReadout(rpmDataset[loggingMax]);
-    };
+    rpmReadout.updateReadout(conditionedRPM);
     if (sensorData.boostPressure > 0){
         boostReadout.updateReadout(sensorData.boostPressure);
     } else {
