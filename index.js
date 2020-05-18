@@ -9,6 +9,8 @@ const server = app.listen(3000);
 const socket = require('socket.io');
 const io = socket(server);
 
+let lastKnownGoodRPM;
+
 app.use(express.static('gauge-display'))
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/gauge-display/index.html');
@@ -59,7 +61,12 @@ function sendSensorData(data) {
           const periodInSeconds = value * 3.5 / 1000000;
           const rpm = 60 / periodInSeconds;
           const roundedRPM = Math.round(rpm);
-          readingsToSend.rpm = roundedRPM;
+          if (roundedRPM < 9000){
+            readingsToSend.rpm = roundedRPM;
+            lastKnownGoodRPM = roundedRPM;
+          } else {
+            resdingsToSend.rpm = lastKnownGoodRPM;
+          }
         } else {
           readingsToSend.rpm = 0;
         }
