@@ -40,7 +40,11 @@ function sendSensorData(data) {
         break;
       case 'OP':
         const oilPSI = value * .18 - 18.75;
+        if (oilPSI > 0){
         readingsToSend.oilPressure = Math.round(oilPSI);
+        } else {
+          readingsToSend.oilPressure = 0;
+        }
         break;
       case 'WB':
         const afr = value * .01161 + 7.312
@@ -51,8 +55,14 @@ function sendSensorData(data) {
         readingsToSend.boostPressure = boost.toFixed(1);
         break;
       case 'ER':
-        const rpm = value;
-        readingsToSend.rpm = rpm;
+        if (value > 0){
+          const periodInSeconds = value * 3.5 / 1000000;
+          const rpm = 60 / periodInSeconds;
+          const roundedRPM = Math.round(rpm);
+          readingsToSend.rpm = roundedRPM;
+        } else {
+          readingsToSend.rpm = 0;
+        }
         break;
       case 'FP':
         const fuelPSI = value;

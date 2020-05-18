@@ -10,7 +10,8 @@ let currentAccelX;
 let currentAccelY;
 let accelXOffset = 0;
 let accelYOffset = 0;
-
+const loggingMax = 800;
+let lastGoodRPMValue;
 
 const rollingTimestamp = [];
 
@@ -22,7 +23,7 @@ window.onload = function () {
         }
     });
 
-    for (let i = 0; i < 400; i++) {
+    for (let i = 0; i < loggingMax; i++) {
         rollingTimestamp.push(new Date());
         engineTempDataset.data.push(0);
         boostPressureDataset.data.push(0);
@@ -35,8 +36,6 @@ window.onload = function () {
     if (localStorage.getItem('xOffset')){ //check for local gmeter reset
         accelXOffset = localStorage.getItem('xOffset');
         accelYOffset = localStorage.getItem('yOffset');
-        console.log(localStorage.getItem('xOffset'));
-        console.log(localStorage.getItem('yOffset'));
     }
 
     drawLineChart();
@@ -47,11 +46,26 @@ function calculateAndDisplay(sensorData) {
     oilPressureGauge.updateGauge(sensorData.oilPressure);
     boostGauge.updateGauge(sensorData.boostPressure);
     // fuelGauge.updateGauge(sensorData.fuelPressure);
-    rpmGauge.updateGauge(sensorData.rpm);
     widebandGauge.updateGauge(sensorData.wideband);
     const offsetXAccel = sensorData.xAcceleration - accelXOffset
     const offsetYAccel = sensorData.yAcceleration - accelYOffset
     gmeter.updateGauge(offsetXAccel, offsetYAccel);
+
+    let conditionedRPM;
+    if (sensorData.rpm > 300 && lastGoodRPMValue > 300){
+        if (sensorData.rpm  > lastGoodRPMValue * 2){
+            conditionedRPM = lastGoodRPMValue;
+        } else {
+            conditionedRPM = sensorData.rpm;
+            lastGoodRPMValue = sensorData.rpm;
+        }
+    } else {
+        lastGoodRPMValue = sensorData.rpm;
+        conditionedRPM = sensorData.rpm;
+    }
+    conditionedRPM = sensorData.rpm;
+
+    rpmGauge.updateGauge(conditionedRPM);
 
     const totalGForce = Math.abs(sensorData.xAcceleration - accelXOffset) + Math.abs(sensorData.yAcceleration - accelYOffset);
     currentAccelX = sensorData.xAcceleration;
@@ -74,6 +88,8 @@ function calculateAndDisplay(sensorData) {
         gforceDataset.data.shift();
         rollingTimestamp.push(new Date(sensorData.timestamp));
         rollingTimestamp.shift();
+        rpmDataset.data.push(conditionedRPM);
+        rpmDataset.data.shift();
 
         chart.data.labels = rollingTimestamp;
         chart.update();
@@ -85,11 +101,15 @@ function calculateAndDisplay(sensorData) {
 
     engineTempReadout.updateReadout(sensorData.waterTemp);
     oilPressureReadout.updateReadout(sensorData.oilPressure);
-    boostReadout.updateReadout(sensorData.boostPressure);
     // fuelReadout.updateReadout(sensorData.fuelPressure);
     widebandReadout.updateReadout(sensorData.wideband);
-    rpmReadout.updateReadout(sensorData.rpm);
     gmeterReadout.updateReadout(totalGForce.toFixed(2));
+    rpmReadout.updateReadout(conditionedRPM);
+    if (sensorData.boostPressure >= -10){
+        boostReadout.updateReadout(sensorData.boostPressure);
+    } else {
+        boostReadout.updateReadout(Math.round(sensorData.boostPressure));
+    }
 }
 
 let engineTempGauge = new Gauge('temp', 'temp', 80, 240, 0, 0, 190, 205, 205, 240, [80, 100, 120, 140, 160, 180, 200, 220, 240], 5);

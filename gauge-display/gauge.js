@@ -18,6 +18,9 @@ export default class Gauge {
       width: 250, height: 250,
       max: max,
       min: min,
+      animation: {
+        duration: 0,
+      },
       redFrom: redFrom, redTo: redTo,
       yellowFrom: yellowFrom, yellowTo: yellowTo,
       greenFrom: greenFrom, greenTo: greenTo,
