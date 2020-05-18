@@ -43,8 +43,8 @@ const yAxes = [{
         color: '#9c9c9c',
     },
     ticks: {
-        max: 240,
-        min: 0,
+        max: 220,
+        min: 160,
     }
 }, {
     id: 'oil-psi',

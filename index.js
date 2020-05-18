@@ -9,7 +9,7 @@ const server = app.listen(3000);
 const socket = require('socket.io');
 const io = socket(server);
 
-let lastKnownGoodRPM;
+let lastKnownGoodRPM = 6000;
 
 app.use(express.static('gauge-display'))
 app.get('/', (req, res) => {
@@ -50,7 +50,11 @@ function sendSensorData(data) {
         break;
       case 'WB':
         const afr = value * .01161 + 7.312
+        if (afr > 8) {
         readingsToSend.wideband = afr.toFixed(1);
+        } else {
+          readingsToSend.wideband = 0;
+        }
         break;
       case 'BP':
         const boost = value * 0.04451 - 14.45; //convert positive psi
@@ -61,11 +65,11 @@ function sendSensorData(data) {
           const periodInSeconds = value * 3.5 / 1000000;
           const rpm = 60 / periodInSeconds;
           const roundedRPM = Math.round(rpm);
-          if (roundedRPM < 9000){
+          if (roundedRPM <= lastKnownGoodRPM * 3){
             readingsToSend.rpm = roundedRPM;
             lastKnownGoodRPM = roundedRPM;
-          } else {
-            resdingsToSend.rpm = lastKnownGoodRPM;
+          } else if (roundedRPM > lastKnownGoodRPM * 3) {
+            readingsToSend.rpm = lastKnownGoodRPM;
           }
         } else {
           readingsToSend.rpm = 0;

@@ -10,7 +10,7 @@ let currentAccelX;
 let currentAccelY;
 let accelXOffset = 0;
 let accelYOffset = 0;
-const loggingMax = 800;
+const loggingMax = 1200;
 let lastGoodRPMValue;
 
 const rollingTimestamp = [];
@@ -71,7 +71,7 @@ function calculateAndDisplay(sensorData) {
     currentAccelX = sensorData.xAcceleration;
     currentAccelY = sensorData.yAcceleration;
 
-    if (chartInterval === 9){
+    if (chartInterval === 4){
         engineTempDataset.data.push(sensorData.waterTemp);
         engineTempDataset.data.shift();
         oilPressureDataset.data.push(sensorData.oilPressure);
