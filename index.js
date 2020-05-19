@@ -73,6 +73,7 @@ function sendSensorData(data) {
           }
         } else {
           readingsToSend.rpm = 0;
+          lastKnownGoodRPM = 6000;
         }
         break;
       case 'FP':
