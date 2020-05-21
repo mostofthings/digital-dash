@@ -9,7 +9,7 @@ const server = app.listen(3000);
 const socket = require('socket.io');
 const io = socket(server);
 
-let lastKnownGoodRPM = 6000;
+// let lastKnownGoodRPM = 6000;
 
 app.use(express.static('gauge-display'))
 app.get('/', (req, res) => {
@@ -61,20 +61,21 @@ function sendSensorData(data) {
         readingsToSend.boostPressure = boost.toFixed(1);
         break;
       case 'ER':
-        if (value > 0){
-          const periodInSeconds = value * 3.5 / 1000000;
-          const rpm = 60 / periodInSeconds;
-          const roundedRPM = Math.round(rpm);
-          if (roundedRPM <= lastKnownGoodRPM * 3){
-            readingsToSend.rpm = roundedRPM;
-            lastKnownGoodRPM = roundedRPM;
-          } else if (roundedRPM > lastKnownGoodRPM * 3) {
-            readingsToSend.rpm = lastKnownGoodRPM;
-          }
-        } else {
-          readingsToSend.rpm = 0;
-          lastKnownGoodRPM = 6000;
-        }
+        // if (value > 0){
+        //   const periodInSeconds = value * 3.5 / 1000000;
+        //   const rpm = 60 / periodInSeconds;
+        //   const roundedRPM = Math.round(rpm);
+        //   if (roundedRPM <= lastKnownGoodRPM * 3){
+        //     readingsToSend.rpm = roundedRPM;
+        //     lastKnownGoodRPM = roundedRPM;
+        //   } else if (roundedRPM > lastKnownGoodRPM * 3) {
+        //     readingsToSend.rpm = lastKnownGoodRPM;
+        //   }
+        // } else {
+        //   readingsToSend.rpm = 0;
+        //   lastKnownGoodRPM = 6000;
+        // }
+        readingsToSend.rpm = value;
         break;
       case 'FP':
         const fuelPSI = value;

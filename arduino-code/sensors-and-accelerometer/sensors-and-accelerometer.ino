@@ -1,3 +1,4 @@
+#include <math.h>
 #include <Wire.h>
 #include <Adafruit_MMA8451.h>
 #include <Adafruit_Sensor.h>
@@ -6,7 +7,13 @@ Adafruit_MMA8451 mma = Adafruit_MMA8451();
 
 int rawValue;
 unsigned long duration;
+float periodInSeconds;
+float unroundedRPM;
+int roundedRPM;
+int rpmToSend;
+int lastKnownGoodRPM;
 unsigned long timeNow;
+
 String waterTemp;
 String boostPressure;
 String fuelPressure;
@@ -45,8 +52,15 @@ void loop() {
   airFuelRatio = (String) "WB" + rawValue;
   
 
-  duration = pulseIn(7, HIGH, 65000); // set for min of 500 RPM
-  rpm = (String) "ER" + duration;
+  duration = pulseIn(7, HIGH, 100000); // set for min of 500 RPM
+//  rpm = (String) "ER" + duration;
+  if (duration > 0){
+    rpmToSend = calculateRPM(duration);
+  } else {
+    rpmToSend = 0;
+    lastKnownGoodRPM = 6000;
+  }
+  rpm = (String) "ER" + rpmToSend;
 
   rawValue = event.acceleration.x * 100;
   xAccel = (String) "XA" + rawValue;
@@ -63,3 +77,15 @@ void loop() {
   Serial.println(waterTemp + "," + boostPressure + "," + oilPressure + "," +
   airFuelRatio + "," + rpm + "," + xAccel + "," + yAccel + "," + zAccel);  
 }
+
+int calculateRPM(unsigned long value){
+  periodInSeconds = value * 3.5 / 1000000;
+  unroundedRPM = 60 / periodInSeconds;
+  roundedRPM = round(unroundedRPM);
+  if (roundedRPM <= lastKnownGoodRPM * 3){
+    lastKnownGoodRPM = roundedRPM;
+  } else if (roundedRPM > lastKnownGoodRPM * 3) {
+    roundedRPM = lastKnownGoodRPM;
+  }
+  return roundedRPM;
+  }
