@@ -19,6 +19,7 @@ String boostPressure;
 String fuelPressure;
 String airFuelRatio;
 String oilPressure;
+String oilTemp;
 String rpm;
 
 String xAccel;
@@ -50,6 +51,8 @@ void loop() {
   oilPressure = (String) "OP" + rawValue;
   rawValue = analogRead(A3);
   airFuelRatio = (String) "WB" + rawValue;
+  rawValue = analogRead(A4);
+  oilTemp = (String) "OT" + rawValue;
   
 
   duration = pulseIn(7, HIGH, 100000); // set for min of 500 RPM
@@ -74,7 +77,7 @@ void loop() {
   }
 
   /* Display the results (acceleration is measured in m/s^2) */
-  Serial.println(waterTemp + "," + boostPressure + "," + oilPressure + "," +
+  Serial.println(waterTemp + "," + boostPressure + "," + oilPressure + "," + oilTemp + "," + 
   airFuelRatio + "," + rpm + "," + xAccel + "," + yAccel + "," + zAccel);  
 }
 

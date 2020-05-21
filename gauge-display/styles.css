@@ -112,7 +112,7 @@ h1 {
 	top: -20px;
 }
 
-#gauge-fuel, #gauge-o2, #gauge-rpm {
+#gauge-fuel, #gauge-oil-temp, #gauge-rpm {
 	position: relative;
 	top: -40px;
 } 
@@ -121,8 +121,8 @@ h1 {
 	display: inline-block;
 	height: 22px;
 	width: 22px;
-	top: -30px;
-	left: 132px;
+	top: -51px;
+	left: 2px;
 	margin: 6px;
 	color: black;
 	transition: color 1.5s linear;

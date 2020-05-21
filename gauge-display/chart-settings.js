@@ -111,13 +111,21 @@ const engineTempDataset = {
     borderColor: '#FF0061',
 };
 
+const oilTempDataset = {
+    label: 'Oil Temp',
+    yAxisID: 'deg',
+    data: [],
+    showLine: true,
+    borderColor: '#f777de',
+};
+
 const oilPressureDataset = {
     label: 'Oil PSI',
     yAxisID: 'oil-psi',
     data: [],
     showLine: true,
     borderColor: '#FFAA00',
-}
+};
 
 const boostPressureDataset = {
     label: 'Boost',
@@ -125,7 +133,7 @@ const boostPressureDataset = {
     data: [],
     showLine: true,
     borderColor: '#8AE800',
-}
+};
 
 const widebandDataset = {
     label: 'Wideband',
@@ -133,7 +141,7 @@ const widebandDataset = {
     data: [],
     showLine: true,
     borderColor: '#7734EA',
-}
+};
 
 const rpmDataset = {
     label: 'RPM',
@@ -141,7 +149,7 @@ const rpmDataset = {
     data: [],
     showLine: true,
     borderColor: '#00A7EA',
-}
+};
 
 const gforceDataset = {
     label: 'G-force',
@@ -149,10 +157,10 @@ const gforceDataset = {
     data: [],
     showLine: true,
     borderColor: '#949494',
-}
+};
 
 const chartData = {
-    datasets: [engineTempDataset, oilPressureDataset, boostPressureDataset, widebandDataset, rpmDataset, gforceDataset]
-}
+    datasets: [engineTempDataset, oilPressureDataset, oilTempDataset, boostPressureDataset, widebandDataset, rpmDataset, gforceDataset]
+};
 
-export { xAxes, yAxes, chartData, engineTempDataset, oilPressureDataset, boostPressureDataset, widebandDataset, rpmDataset, gforceDataset }
+export { xAxes, yAxes, chartData, engineTempDataset, oilPressureDataset, oilTempDataset, boostPressureDataset, widebandDataset, rpmDataset, gforceDataset }

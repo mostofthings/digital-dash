@@ -66,6 +66,10 @@
     background-color: #FFAA00;;
 }
 
+#oil-temp-readout-indicator {
+    background-color: #f777de;
+}
+
 #boost-readout-indicator {
     background-color: #8AE800;
 }
@@ -89,7 +93,11 @@
 
 
 #oil-psi-readout {
-    border-color: #FFAA00;;
+    border-color: #FFAA00;
+}
+
+#oil-temp-readout {
+    border-color: #f777de;
 }
 
 #boost-readout {

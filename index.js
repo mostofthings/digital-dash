@@ -21,10 +21,19 @@ parser.on('data', sendSensorData);
 
 io.sockets.on('connection', (socket) => console.log(socket.id));
 
-const tempRawData = [16, 22, 29, 39, 51, 68, 90, 121, 162, 217, 291, 379, 483, 595, 708, 808, 884, 939];
+const waterTempRawData = [16, 22, 29, 39, 51, 68, 90, 121, 162, 217, 291, 379, 483, 595, 708, 808, 884, 939];
 
-const correspondingTemp = [302, 284, 266, 248, 230, 212, 194, 176, 158, 140, 122, 104, 86, 68, 50, 32, 14, -4];
+const correspondingWaterTemp = [302, 284, 266, 248, 230, 212, 194, 176, 158, 140, 122, 104, 86, 68, 50, 32, 14, -4];
 
+const oilTempRawData = [536, 546, 562, 578, 589, 604, 626, 646, 666, 685, 704, 712, 718, 729,
+  734, 747, 759, 771, 785, 796, 807, 818, 828, 837, 848, 861, 870, 880, 886, 894, 898,
+  905, 908, 914, 917, 920, 923, 926, 928, 929, 933, 937, 939, 941, 944, 946, 950, 952,
+  955, 960, 964, 969, 974, 978];
+
+const correspondingOilTemp = [80, 83, 86, 89, 91, 94, 98, 102, 106, 110, 114, 116, 117, 120,
+  121, 124, 127, 130, 134, 137, 140, 144, 147, 150, 154, 159, 163, 167, 170, 174, 178,
+  180, 182, 183, 185, 187, 188.5, 190, 192, 193, 195, 198, 199, 200, 203, 205, 209, 212,
+  215, 220, 225, 230, 235, 240];
 
 function sendSensorData(data) {
   const allReadings = data.split(',');
@@ -37,8 +46,14 @@ function sendSensorData(data) {
 
     switch (type) {
       case 'WT':
-        const unroundedTemp = getTempInF(value);
-        readingsToSend.waterTemp = Math.round(unroundedTemp);
+        if (value < 16){
+          readingsToSend.waterTemp = 302;
+        } else if (value <= 884){
+          const unroundedWaterTemp = getTempInF(value, waterTempRawData, correspondingWaterTemp);
+          readingsToSend.waterTemp = Math.round(unroundedWaterTemp);
+        } else if (value > 884){
+          readingsToSend.waterTemp = -4;
+        }
         break;
       case 'OP':
         const oilPSI = value * .18 - 18.75;
@@ -46,6 +61,16 @@ function sendSensorData(data) {
         readingsToSend.oilPressure = Math.round(oilPSI);
         } else {
           readingsToSend.oilPressure = 0;
+        }
+        break;
+      case 'OT':
+        if (value < 536){
+          readingsToSend.oilTemp = 80;
+        } else if (value <= 974){
+          const unroundedOilTemp = getTempInF(value, oilTempRawData, correspondingOilTemp);
+          readingsToSend.oilTemp = Math.round(unroundedOilTemp);
+        } else if (value > 974){
+          readingsToSend.oilTemp = 240;
         }
         break;
       case 'WB':
@@ -61,20 +86,6 @@ function sendSensorData(data) {
         readingsToSend.boostPressure = boost.toFixed(1);
         break;
       case 'ER':
-        // if (value > 0){
-        //   const periodInSeconds = value * 3.5 / 1000000;
-        //   const rpm = 60 / periodInSeconds;
-        //   const roundedRPM = Math.round(rpm);
-        //   if (roundedRPM <= lastKnownGoodRPM * 3){
-        //     readingsToSend.rpm = roundedRPM;
-        //     lastKnownGoodRPM = roundedRPM;
-        //   } else if (roundedRPM > lastKnownGoodRPM * 3) {
-        //     readingsToSend.rpm = lastKnownGoodRPM;
-        //   }
-        // } else {
-        //   readingsToSend.rpm = 0;
-        //   lastKnownGoodRPM = 6000;
-        // }
         readingsToSend.rpm = value;
         break;
       case 'FP':
@@ -89,6 +100,10 @@ function sendSensorData(data) {
         const yAccel = value / 100 / 9.806;
         readingsToSend.yAcceleration = yAccel.toFixed(2);
         break;
+      case 'ZA':
+        const zAccel = value / 100 / 9.806;
+        readingsToSend.zAcceleration = zAccel.toFixed(2);
+        break;
       // default:
       //   console.log('sensor not found');
     }
@@ -99,18 +114,18 @@ function sendSensorData(data) {
     io.emit('sensor', readingsToSend);
 }
 
-function getTempInF(value) {
-  for (let i = 0; i < tempRawData.length - 1; i++) {
-  if (value >= tempRawData[i] && value < tempRawData[i + 1]) {
-      const sensorMax = tempRawData[i + 1];
-      const sensorMin = tempRawData[i];
+function getTempInF(value, rawDataSet, correspondingDataSet) {
+  for (let i = 0; i < waterTempRawData.length - 1; i++) {
+  if (value >= rawDataSet[i] && value < rawDataSet[i + 1]) {
+      const sensorMax = rawDataSet[i + 1];
+      const sensorMin = rawDataSet[i];
       const sensorRange = sensorMax - sensorMin;
       const differenceToReading = value - sensorMin;
 
       const percentile = differenceToReading / sensorRange;
 
-      const responseMax = correspondingTemp[i + 1];
-      const responseMin = correspondingTemp[i];
+      const responseMax = correspondingDataSet[i + 1];
+      const responseMin = correspondingDataSet[i];
       const responseRange = responseMax - responseMin;
 
       return responseRange * percentile + responseMin;
