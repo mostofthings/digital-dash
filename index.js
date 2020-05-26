@@ -129,7 +129,7 @@ function sendSensorData(data) {
 }
 
 function getTempInF(value, rawDataSet, correspondingDataSet) {
-  for (let i = 0; i < waterTempRawData.length - 1; i++) {
+  for (let i = 0; i < rawDataSet.length - 1; i++) {
   if (value >= rawDataSet[i] && value < rawDataSet[i + 1]) {
       const sensorMax = rawDataSet[i + 1];
       const sensorMin = rawDataSet[i];
