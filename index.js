@@ -16,6 +16,18 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/gauge-display/index.html');
 });
 
+app.get('/change-night', (req, res) => {
+  const brightness = req.query.brightness;
+  res.status(200).end();
+  printToSerial(brightness);
+});
+
+app.get('/master-warn', (req, res) => {
+  const warnState = req.query.warn;
+  res.status(200).end();
+  printToSerial('warn');
+})
+
 const parser = port.pipe(new Readline());
 parser.on('data', sendSensorData);
 
@@ -104,6 +116,8 @@ function sendSensorData(data) {
         const zAccel = value / 100 / 9.806;
         readingsToSend.zAcceleration = zAccel.toFixed(2);
         break;
+      case 'EM':
+        console.log(valueString);
       // default:
       //   console.log('sensor not found');
     }
@@ -131,4 +145,12 @@ function getTempInF(value, rawDataSet, correspondingDataSet) {
       return responseRange * percentile + responseMin;
     }
   }
+}
+
+function printToSerial(message){
+  port.write(message + '\n', (err) => {
+    if (err) {
+      return console.log('Error on write: ', err.message);
+    }
+  });
 }

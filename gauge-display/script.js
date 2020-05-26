@@ -11,6 +11,8 @@ let accelXOffset = 0;
 let accelYOffset = 0;
 const loggingMax = 1500;
 let lastGoodRPMValue;
+let ledBrightnessNight = 1;
+let ledBrightnessDay = 128;
 
 const rollingTimestamp = [];
 
@@ -34,6 +36,11 @@ window.onload = function () {
         accelYOffset = localStorage.getItem('yOffset');
     }
 
+    if (localStorage.getItem('brightness-night')){
+        ledBrightnessNight = localStorage.getItem('brightness-night');
+        ledBrightnessDay = localStorage.getItem('brightness-day');
+    }
+
     drawLineChart();
 }
 
@@ -45,8 +52,8 @@ function calculateAndDisplay(sensorData) {
     rpmGauge.updateGauge(sensorData.rpm);
     // fuelGauge.updateGauge(sensorData.fuelPressure);
     //widebandGauge.updateGauge(sensorData.wideband);
-    const offsetXAccel = sensorData.xAcceleration - accelXOffset
-    const offsetYAccel = sensorData.yAcceleration - accelYOffset
+    const offsetXAccel = sensorData.xAcceleration - accelXOffset;
+    const offsetYAccel = sensorData.yAcceleration - accelYOffset;
     gmeter.updateGauge(offsetXAccel, offsetYAccel);
 
     const totalGForce = Math.abs(sensorData.xAcceleration - accelXOffset) + Math.abs(sensorData.yAcceleration - accelYOffset);
@@ -90,7 +97,7 @@ function calculateAndDisplay(sensorData) {
     widebandReadout.updateReadout(sensorData.wideband);
     gmeterReadout.updateReadout(totalGForce.toFixed(2));
     rpmReadout.updateReadout(sensorData.rpm);
-    if (sensorData.boostPressure >= -10){
+    if (sensorData.boostPressure > -10){
         boostReadout.updateReadout(sensorData.boostPressure);
     } else {
         boostReadout.updateReadout(Math.round(sensorData.boostPressure));
@@ -182,7 +189,11 @@ function resetChartScales(){
 let night = false;
 
 const nightModeButton = document.getElementById('night-mode');
+const ledUpButton = document.getElementById('caret-up');
+const ledDownButton = document.getElementById('caret-down');
 nightModeButton.addEventListener('click', switchNight);
+ledUpButton.addEventListener('click', () => changeLedBrightness(true));
+ledDownButton.addEventListener('click', () => changeLedBrightness(false));
 
 function switchNight(event){
     let chartBackground = document.getElementById('chart');
@@ -195,6 +206,8 @@ function switchNight(event){
         nightModeButton.classList.remove('icono-sun');
         nightModeButton.classList.remove('night');
         nightModeButton.classList.add('icono-moon');
+        ledUpButton.classList.remove('night');
+        ledDownButton.classList.remove('night');
         chartBackground.classList.remove('night');
         gaugePageBackground.classList.remove('night');
         readoutLabelElements.forEach(readoutLabel => readoutLabel.classList.remove('night'));
@@ -202,10 +215,15 @@ function switchNight(event){
         readoutDisplayElements.forEach(displayElement => displayElement.classList.remove('night'));
         Chart.defaults.global.defaultFontColor = 'black';
         chartNight('#CCCCCC', '#F7F7F7');
+
+        fetch('/change-night?brightness=' + ledBrightnessDay)
+            .then(data => console.log(data))
     } else { //switching to night
         nightModeButton.classList.remove('icono-moon');
         nightModeButton.classList.add('night');
         nightModeButton.classList.add('icono-sun');
+        ledUpButton.classList.add('night');
+        ledDownButton.classList.add('night');
         chartBackground.classList.add('night');
         gaugePageBackground.classList.add('night');
         readoutLabelElements.forEach(readoutLabel => readoutLabel.classList.add('night'));
@@ -213,6 +231,9 @@ function switchNight(event){
         readoutDisplayElements.forEach(displayElement => displayElement.classList.add('night'));
         Chart.defaults.global.defaultFontColor = 'white';
         chartNight('#2e2e2e', 'black');
+
+        fetch('/change-night?brightness=' + ledBrightnessNight)
+            .then(data => console.log(data))
     }
 
     night= !night;
@@ -245,4 +266,46 @@ let resetGmeter = function() {
     accelYOffset = currentAccelY;
 }
 
+function changeLedBrightness(isUp){
+    if (isUp && night){
+        ledBrightnessNight++
+        if (ledBrightnessNight > 255){
+            ledBrightnessNight = 255;
+        }
+        localStorage.setItem('brightness-night', ledBrightnessNight);
+        fetch('/change-night?brightness=' + ledBrightnessNight)
+            .then(data => console.log(data))
+    } else if (isUp && !night){
+        ledBrightnessDay = ledBrightnessDay + 20
+        if (ledBrightnessDay > 255){
+            ledBrightnessDay = 255;
+        }
+        localStorage.setItem('brightness-day', ledBrightnessDay);
+        fetch('/change-night?brightness=' + ledBrightnessDay)
+            .then(data => console.log(data))
+    }
 
+    if (!isUp && night){
+        ledBrightnessNight--;
+        if (ledBrightnessNight < 0){
+            ledBrightnessNight = 0;
+        }
+        localStorage.setItem('brightness-night', ledBrightnessNight);
+        fetch('/change-night?brightness=' + ledBrightnessNight)
+            .then(data => console.log(data))
+    } else if (!isUp && !night){
+        ledBrightnessDay = ledBrightnessDay - 20;
+        if (ledBrightnessDay < 0){
+            ledBrightnessDay = 0;
+        }
+        localStorage.setItem('brightness-day', ledBrightnessDay);
+        fetch('/change-night?brightness=' + ledBrightnessDay)
+            .then(data => console.log(data))
+    }
+}
+
+function masterWarn(isTrue){
+    console.log('warn');
+    fetch('/master-warn?warn=' + isTrue)
+            .then(data => console.log(data))
+}

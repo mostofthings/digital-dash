@@ -20,9 +20,9 @@
 
 }
 
-html { 
+/* html { 
 	cursor: none;
-}
+} */
 
 ::-webkit-scrollbar {
     display: none;
@@ -58,6 +58,26 @@ h1 {
 
 .icono-moon {
 	
+}
+
+#caret-up, #caret-down {
+	position: relative;
+	color: black;
+	transition: color 1.5s linear;
+}
+
+#caret-up.night, #caret-down.night {
+	color: white;
+}
+
+#caret-up{
+	top: -95px;
+	left: 738px;
+}
+
+#caret-down{
+	top: -69px;
+	left: 694px;
 }
 
 #chart {
@@ -121,8 +141,8 @@ h1 {
 	display: inline-block;
 	height: 22px;
 	width: 22px;
-	top: -51px;
-	left: 2px;
+	top: -48px;
+	left: -2px;
 	margin: 6px;
 	color: black;
 	transition: color 1.5s linear;
