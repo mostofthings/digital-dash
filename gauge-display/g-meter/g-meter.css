@@ -5,7 +5,7 @@
 }
 
 .crosshairs {
-    background-color:#333333;
+    background-color: #333333;
     position: relative;
     box-shadow: 0 0 1px black;
 }
@@ -34,14 +34,12 @@
     position: relative;
     top: -67px;
     left: -42px;
-
 }
 
 #one-g {
     position: relative;
     top: -67px;
     left: -38px;
-
 }
 
 #crosshairs-vertical {
@@ -56,7 +54,6 @@
     width: 203px;
     top: -78.5px;
     left: 38px;
-
 }
 
 #g-diameter {
@@ -94,5 +91,5 @@
     position: absolute;
     background: radial-gradient(circle at 5px 5px, #EF0723, rgb(53, 0, 0));
     /* box-shadow: 0 0 2px #000000; */
-    box-shadow: 2px 2px 3px 0px rgba(0,0,0,0.75);
+    box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.75);
 }

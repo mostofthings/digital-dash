@@ -8,14 +8,12 @@
     margin-left: 5px;
     margin-right: 5px;
     margin-top: 3px;
-    box-shadow: inset 2px 2px 2px rgba(30,30,30,.4), 2px 2px 2px rgba(30,30,30,.4);
+    box-shadow: inset 2px 2px 2px rgba(30, 30, 30, .4), 2px 2px 2px rgba(30, 30, 30, .4);
 }
 
 .readout.night {
     background-color: black;
 }
-
-
 
 .number-display {
     width: 85px;
@@ -29,7 +27,7 @@
     transition: color 1.5s linear;
     font-weight: 200;
     cursor: pointer;
-    text-shadow: 2px 2px 2px rgba(30,30,30,.3);
+    text-shadow: 2px 2px 2px rgba(30, 30, 30, .3);
 }
 
 .number-display.night {
@@ -46,7 +44,7 @@
     font-family: 'Montserrat', sans-serif;
     font-weight: 500;
     cursor: pointer;
-    text-shadow: 2px 2px 2px rgba(30,30,30,.3);
+    text-shadow: 2px 2px 2px rgba(30, 30, 30, .3);
 }
 
 .readout-label.night {
@@ -63,7 +61,8 @@
 }
 
 #oil-psi-readout-indicator {
-    background-color: #FFAA00;;
+    background-color: #FFAA00;
+    ;
 }
 
 #oil-temp-readout-indicator {
@@ -79,7 +78,7 @@
 }
 
 #o2-readout-indicator {
-    background-color:#7734EA;
+    background-color: #7734EA;
 }
 
 #temp-readout-indicator {
@@ -89,8 +88,6 @@
 #g-readout-indicator {
     background-color: #949494;
 }
-
-
 
 #oil-psi-readout {
     border-color: #FFAA00;
@@ -109,7 +106,7 @@
 }
 
 #o2-readout {
-    border-color:#7734EA;
+    border-color: #7734EA;
 }
 
 #temp-readout {

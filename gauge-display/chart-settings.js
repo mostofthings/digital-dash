@@ -37,7 +37,7 @@ const xAxes = [{
 }];
 
 const yAxes = [{
-    id: 'deg',
+    id: 'water-deg',
     position: 'left',
     gridLines: {
         color: '#9c9c9c',
@@ -51,7 +51,7 @@ const yAxes = [{
     position: 'right',
     gridLines: {
         color: '#2e2e2e',
-        borderDash: [2,8],
+        borderDash: [2, 8],
     },
     ticks: {
         max: 150,
@@ -61,7 +61,7 @@ const yAxes = [{
     id: 'boost',
     gridLines: {
         color: '#2e2e2e',
-        borderDash: [2,8],
+        borderDash: [2, 8],
     },
     display: false,
     ticks: {
@@ -69,10 +69,21 @@ const yAxes = [{
         min: -14,
     }
 }, {
+    id: 'oil-deg',
+    gridLines: {
+        color: '#2e2e2e',
+        borderDash: [2, 8],
+    },
+    display: false,
+    ticks: {
+        max: 240,
+        min: 120,
+    }
+}, {
     id: 'afr',
     gridLines: {
         color: '#2e2e2e',
-        borderDash: [2,8],
+        borderDash: [2, 8],
     },
     display: false,
     ticks: {
@@ -83,7 +94,7 @@ const yAxes = [{
     id: 'RPM',
     gridLines: {
         color: '#2e2e2e',
-        borderDash: [2,8],
+        borderDash: [2, 8],
     },
     display: false,
     ticks: {
@@ -94,7 +105,7 @@ const yAxes = [{
     id: 'Gs',
     gridLines: {
         color: '#2e2e2e',
-        borderDash: [2,8],
+        borderDash: [2, 8],
     },
     display: false,
     ticks: {
@@ -105,7 +116,7 @@ const yAxes = [{
 
 const engineTempDataset = {
     label: 'Engine Temp',
-    yAxisID: 'deg',
+    yAxisID: 'water-deg',
     data: [],
     showLine: true,
     borderColor: '#FF0061',
@@ -113,7 +124,7 @@ const engineTempDataset = {
 
 const oilTempDataset = {
     label: 'Oil Temp',
-    yAxisID: 'deg',
+    yAxisID: 'oil-deg',
     data: [],
     showLine: true,
     borderColor: '#f777de',

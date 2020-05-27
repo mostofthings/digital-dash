@@ -37,8 +37,8 @@ const waterTempRawData = [16, 22, 29, 39, 51, 68, 90, 121, 162, 217, 291, 379, 4
 
 const correspondingWaterTemp = [302, 284, 266, 248, 230, 212, 194, 176, 158, 140, 122, 104, 86, 68, 50, 32, 14, -4];
 
-const oilTempRawData = [121, 288, 435, 536, 546, 562, 578, 589, 604, 626, 646, 666, 685, 
-  704, 712, 718, 729, 734, 747, 759, 771, 785, 796, 807, 818, 828, 837, 848, 861, 870, 
+const oilTempRawData = [121, 288, 435, 536, 546, 562, 578, 589, 604, 626, 646, 666, 685,
+  704, 712, 718, 729, 734, 747, 759, 771, 785, 796, 807, 818, 828, 837, 848, 861, 870,
   880, 886, 894, 898, 905, 908, 914, 917, 920, 923, 926, 928, 929, 933, 937, 939, 941,
   944, 946, 950, 952, 955, 960, 964, 969, 974, 978];
 
@@ -58,37 +58,37 @@ function sendSensorData(data) {
 
     switch (type) {
       case 'WT':
-        if (value < 16){
+        if (value < 16) {
           readingsToSend.waterTemp = 302;
-        } else if (value <= 884){
+        } else if (value <= 884) {
           const unroundedWaterTemp = getTempInF(value, waterTempRawData, correspondingWaterTemp);
           readingsToSend.waterTemp = Math.round(unroundedWaterTemp);
-        } else if (value > 884){
+        } else if (value > 884) {
           readingsToSend.waterTemp = -4;
         }
         break;
       case 'OP':
         const oilPSI = value * .18 - 18.75;
-        if (oilPSI > 0){
-        readingsToSend.oilPressure = Math.round(oilPSI);
+        if (oilPSI > 0) {
+          readingsToSend.oilPressure = Math.round(oilPSI);
         } else {
           readingsToSend.oilPressure = 0;
         }
         break;
       case 'OT':
-        if (value < 121){
+        if (value < 121) {
           readingsToSend.oilTemp = -4;
-        } else if (value <= 974){
+        } else if (value <= 974) {
           const unroundedOilTemp = getTempInF(value, oilTempRawData, correspondingOilTemp);
           readingsToSend.oilTemp = Math.round(unroundedOilTemp);
-        } else if (value > 974){
+        } else if (value > 974) {
           readingsToSend.oilTemp = 240;
         }
         break;
       case 'WB':
         const afr = value * .01161 + 7.312
         if (afr > 8) {
-        readingsToSend.wideband = afr.toFixed(1);
+          readingsToSend.wideband = afr.toFixed(1);
         } else {
           readingsToSend.wideband = 0;
         }
@@ -125,12 +125,12 @@ function sendSensorData(data) {
 
   readingsToSend.timestamp = new Date();
 
-    io.emit('sensor', readingsToSend);
+  io.emit('sensor', readingsToSend);
 }
 
 function getTempInF(value, rawDataSet, correspondingDataSet) {
   for (let i = 0; i < rawDataSet.length - 1; i++) {
-  if (value >= rawDataSet[i] && value < rawDataSet[i + 1]) {
+    if (value >= rawDataSet[i] && value < rawDataSet[i + 1]) {
       const sensorMax = rawDataSet[i + 1];
       const sensorMin = rawDataSet[i];
       const sensorRange = sensorMax - sensorMin;
@@ -147,7 +147,7 @@ function getTempInF(value, rawDataSet, correspondingDataSet) {
   }
 }
 
-function printToSerial(message){
+function printToSerial(message) {
   port.write(message + '\n', (err) => {
     if (err) {
       return console.log('Error on write: ', err.message);

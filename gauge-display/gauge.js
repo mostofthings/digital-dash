@@ -7,13 +7,13 @@ export default class Gauge {
     this.min = min;
     this.max = max;
     this.isSweepDone = false;
-    
+
     const gaugeElement = document.createElement('div');
     gaugeElement.id = `gauge-${name}`;
     gaugeElement.setAttribute('class', 'gauge gauge-face');
     const gaugeHolder = document.getElementById('gauge-div');
     gaugeHolder.append(gaugeElement)
-    
+
     this.gaugeOptions = {
       width: 250, height: 250,
       max: max,
@@ -30,24 +30,24 @@ export default class Gauge {
       greenColor: '#27FF27',
       yellowColor: '#FFFF27',
     };
-    
+
     google.charts.load('current', { 'packages': ['gauge'] });
     google.charts.setOnLoadCallback(() => this.setupGauge());
   }
-  
+
   setupGauge() {
     this.data = google.visualization.arrayToDataTable([
       ['Label', 'Value'],
       [this.label, 0],
     ]);
-    
+
     this.gauge = new google.visualization.Gauge(document.getElementById(`gauge-${this.name}`));
-    
+
     this.data.setValue(0, 1, this.gaugeOptions.min);
     this.gauge.draw(this.data, this.gaugeOptions);
   }
 
-  updateGauge(value){
+  updateGauge(value) {
     this.data.setValue(0, 1, value);
     this.gauge.draw(this.data, this.gaugeOptions);
   }

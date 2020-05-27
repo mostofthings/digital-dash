@@ -13,7 +13,7 @@ export default class Readout {
         this.displayElement = document.getElementById(`${this.name}-display`);
     }
 
-    getScaffoldHtml(){
+    getScaffoldHtml() {
         return `
         <div class="outline">
             <div id="${this.name}-display" class="number-display">
@@ -28,7 +28,7 @@ export default class Readout {
         `;
     }
 
-    updateReadout(data){
+    updateReadout(data) {
         this.displayElement.innerText = data;
     }
 }

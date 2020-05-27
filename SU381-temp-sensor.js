@@ -8,31 +8,27 @@ const correspondingTemp = [80, 83, 86, 89, 91, 94, 98, 102, 106, 110, 114, 116, 
     180, 182, 183, 185, 187, 188.5, 190, 192, 193, 195, 198, 199, 200, 203, 205, 209, 212,
     215, 220, 225, 230, 235, 240];
 
-    case 'WT':
-        const unroundedTemp = getTempInF(value);
-        readingsToSend.waterTemp = Math.round(unroundedTemp);
-        break;
 
 function getTempInF(value) {
     for (let i = 0; i < tempRawData.length - 1; i++) {
         if (value < 536) {
-        return 80
+            return 80
         } else if (value >= tempRawData[i] && value < tempRawData[i + 1]) {
-        let sensorMax = tempRawData[i + 1];
-        let sensorMin = tempRawData[i];
-        let sensorRange = sensorMax - sensorMin;
-        let differenceToReading = value - sensorMin;
-    
-        let percentile = differenceToReading / sensorRange;
-    
-        let responseMax = correspondingTemp[i + 1];
-        let responseMin = correspondingTemp[i];
-        let responseRange = responseMax - responseMin;
-    
-        return responseRange * percentile + responseMin;
-    
+            let sensorMax = tempRawData[i + 1];
+            let sensorMin = tempRawData[i];
+            let sensorRange = sensorMax - sensorMin;
+            let differenceToReading = value - sensorMin;
+
+            let percentile = differenceToReading / sensorRange;
+
+            let responseMax = correspondingTemp[i + 1];
+            let responseMin = correspondingTemp[i];
+            let responseRange = responseMax - responseMin;
+
+            return responseRange * percentile + responseMin;
+
         } else if (value > 977) {
-        return 'error';
+            return 'error';
         }
     }
-    }
+}

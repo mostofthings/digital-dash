@@ -7,7 +7,7 @@ export default class Gmeter {
         // this.zAccel = 0;
         this.y = 117;
         this.x = 117.5;
-        
+
         const gmeterElement = document.createElement('div');
         gmeterElement.id = `gmeter-${name}`;
         gmeterElement.setAttribute('class', 'gmeter gauge-face');
@@ -25,7 +25,7 @@ export default class Gmeter {
             <circle cx="124.5" cy="124.5" r="113" stroke="#333333" stroke-width="1" fill="#cccccc"></circle>
             <circle cx="124.5" cy="124.5" r="101" stroke="#e0e0e0" stroke-width="2" fill="#f7f7f7" style="
             "></circle>
-               </g>
+        </g>
         </svg>
                     <div id="meter-holder" class="gmeter">
 

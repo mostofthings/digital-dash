@@ -1,8 +1,10 @@
 import Gauge from './gauge.js';
 import Gmeter from './g-meter/g-meter.js';
 import Readout from './readouts/readouts.js';
-import { xAxes, yAxes, chartData, engineTempDataset, oilPressureDataset, oilTempDataset, 
-    widebandDataset, rpmDataset, gforceDataset, boostPressureDataset } from './chart-settings.js';
+import {
+    xAxes, yAxes, chartData, engineTempDataset, oilPressureDataset, oilTempDataset,
+    widebandDataset, rpmDataset, gforceDataset, boostPressureDataset
+} from './chart-settings.js';
 let chart;
 let chartInterval = 0;
 let currentAccelX;
@@ -31,12 +33,12 @@ window.onload = function () {
         widebandDataset.data.push(0);
     };
 
-    if (localStorage.getItem('xOffset')){ //check for local gmeter reset
+    if (localStorage.getItem('xOffset')) { //check for local gmeter reset
         accelXOffset = localStorage.getItem('xOffset');
         accelYOffset = localStorage.getItem('yOffset');
     }
 
-    if (localStorage.getItem('brightness-night')){
+    if (localStorage.getItem('brightness-night')) {
         ledBrightnessNight = localStorage.getItem('brightness-night');
         ledBrightnessDay = localStorage.getItem('brightness-day');
     }
@@ -60,12 +62,13 @@ function calculateAndDisplay(sensorData) {
     currentAccelX = sensorData.xAcceleration;
     currentAccelY = sensorData.yAcceleration;
 
-    if (chartInterval === 4){
+    if (chartInterval === 4) {
         engineTempDataset.data.push(sensorData.waterTemp);
         engineTempDataset.data.shift();
         oilPressureDataset.data.push(sensorData.oilPressure);
         oilPressureDataset.data.shift();
         oilTempDataset.data.push(sensorData.oilTemp);
+        console.log(sensorData.oilTemp);
         oilTempDataset.data.shift();
         widebandDataset.data.push(sensorData.wideband);
         widebandDataset.data.shift();
@@ -87,7 +90,7 @@ function calculateAndDisplay(sensorData) {
 
         chartInterval = 0;
     } else {
-    chartInterval++;
+        chartInterval++;
     };
 
     engineTempReadout.updateReadout(sensorData.waterTemp);
@@ -97,7 +100,7 @@ function calculateAndDisplay(sensorData) {
     widebandReadout.updateReadout(sensorData.wideband);
     gmeterReadout.updateReadout(totalGForce.toFixed(2));
     rpmReadout.updateReadout(sensorData.rpm);
-    if (sensorData.boostPressure > -10){
+    if (sensorData.boostPressure > -10) {
         boostReadout.updateReadout(sensorData.boostPressure);
     } else {
         boostReadout.updateReadout(Math.round(sensorData.boostPressure));
@@ -118,7 +121,7 @@ let oilPressureReadout = new Readout('oil-psi-readout', 'oil psi');
 let oilTempReadout = new Readout('oil-temp-readout', 'oil temp');
 let boostReadout = new Readout('boost-readout', 'boost');
 // let fuelReadout = new Readout('fuel-readout', 'fuel');
-let widebandReadout = new Readout('o2-readout', 'o2',);
+let widebandReadout = new Readout('o2-readout', 'o2');
 let rpmReadout = new Readout('rpm-readout', 'rpm');
 let gmeterReadout = new Readout('g-readout', 'Gs');
 
@@ -128,7 +131,6 @@ function drawLineChart() {
     chart = new Chart(chartContext, {
         type: 'line',
         data: chartData,
-
         options: {
             scales: {
                 xAxes,
@@ -156,7 +158,7 @@ rpmReadoutButton.addEventListener('click', () => showHideLine(rpmDataset));
 gReadoutButton.addEventListener('click', () => showHideLine(gforceDataset));
 // fuelReadoutButton.addEventListener('click', () => showHideLine(6));
 
-function showHideLine(dataset){
+function showHideLine(dataset) {
     dataset.showLine = !dataset.showLine;
     const matchingYAxisIndex = yAxes.findIndex(yAxis => yAxis.id === dataset.yAxisID);
     const matchingYAxis = chart.options.scales.yAxes[matchingYAxisIndex];
@@ -164,16 +166,15 @@ function showHideLine(dataset){
         resetChartScales(matchingYAxis);
         matchingYAxis.position = 'right';
         matchingYAxis.display = true;
-        matchingYAxis.gridLines.borderDash = [2,8];
+        matchingYAxis.gridLines.borderDash = [2, 8];
     } else {
         matchingYAxis.display = false;
     }
 }
 
-function resetChartScales(){
-
-    for (let i = 0; i < 6; i++){
-        if (chart.options.scales.yAxes[i].position === 'left'){
+function resetChartScales() {
+    for (let i = 0; i < 6; i++) {
+        if (chart.options.scales.yAxes[i].position === 'left') {
             chart.options.scales.yAxes[i].display = false;
             chart.options.scales.yAxes[i].gridLines.color = '#2e2e2e'
 
@@ -183,7 +184,6 @@ function resetChartScales(){
             chart.options.scales.yAxes[i].gridLines.borderDash = [];
         }
     }
-
 }
 
 let night = false;
@@ -195,7 +195,7 @@ nightModeButton.addEventListener('click', switchNight);
 ledUpButton.addEventListener('click', () => changeLedBrightness(true));
 ledDownButton.addEventListener('click', () => changeLedBrightness(false));
 
-function switchNight(event){
+function switchNight(event) {
     let chartBackground = document.getElementById('chart');
     let readoutElements = document.querySelectorAll('.readout');
     let readoutLabelElements = document.querySelectorAll('.readout-label');
@@ -236,11 +236,11 @@ function switchNight(event){
             .then(data => console.log(data))
     }
 
-    night= !night;
+    night = !night;
 }
 
 function chartNight(rimFill, faceColor) {
-	const svgs = document.querySelectorAll('.gauge-face svg');
+    const svgs = document.querySelectorAll('.gauge-face svg');
     svgs.forEach(svg => {
         const circles = svg.getElementsByTagName('circle');
         const gaugeRim = circles[0];
@@ -248,36 +248,35 @@ function chartNight(rimFill, faceColor) {
 
         gaugeRim.setAttribute('fill', rimFill);
         gaugeBackground.setAttribute('fill', faceColor);
-       
+
     })
 }
 
-
 let longTouchTimer;
-var touchduration = 500; 
+var touchduration = 500;
 const gMeterDiv = document.getElementById('gmeter-main');
 gMeterDiv.addEventListener('touchstart', () => longTouchTimer = setTimeout(resetGmeter, touchduration))
 gMeterDiv.addEventListener('touchend', () => clearTimeout(longTouchTimer));
 
-let resetGmeter = function() {
+let resetGmeter = function () {
     localStorage.setItem('xOffset', currentAccelX);
     localStorage.setItem('yOffset', currentAccelY);
     accelXOffset = currentAccelX;
     accelYOffset = currentAccelY;
 }
 
-function changeLedBrightness(isUp){
-    if (isUp && night){
+function changeLedBrightness(isUp) {
+    if (isUp && night) {
         ledBrightnessNight++
-        if (ledBrightnessNight > 255){
+        if (ledBrightnessNight > 255) {
             ledBrightnessNight = 255;
         }
         localStorage.setItem('brightness-night', ledBrightnessNight);
         fetch('/change-night?brightness=' + ledBrightnessNight)
             .then(data => console.log(data))
-    } else if (isUp && !night){
+    } else if (isUp && !night) {
         ledBrightnessDay = ledBrightnessDay + 20
-        if (ledBrightnessDay > 255){
+        if (ledBrightnessDay > 255) {
             ledBrightnessDay = 255;
         }
         localStorage.setItem('brightness-day', ledBrightnessDay);
@@ -285,17 +284,17 @@ function changeLedBrightness(isUp){
             .then(data => console.log(data))
     }
 
-    if (!isUp && night){
+    if (!isUp && night) {
         ledBrightnessNight--;
-        if (ledBrightnessNight < 0){
+        if (ledBrightnessNight < 0) {
             ledBrightnessNight = 0;
         }
         localStorage.setItem('brightness-night', ledBrightnessNight);
         fetch('/change-night?brightness=' + ledBrightnessNight)
             .then(data => console.log(data))
-    } else if (!isUp && !night){
+    } else if (!isUp && !night) {
         ledBrightnessDay = ledBrightnessDay - 20;
-        if (ledBrightnessDay < 0){
+        if (ledBrightnessDay < 0) {
             ledBrightnessDay = 0;
         }
         localStorage.setItem('brightness-day', ledBrightnessDay);
@@ -304,8 +303,8 @@ function changeLedBrightness(isUp){
     }
 }
 
-function masterWarn(isTrue){
+function masterWarn(isTrue) {
     console.log('warn');
     fetch('/master-warn?warn=' + isTrue)
-            .then(data => console.log(data))
+        .then(data => console.log(data))
 }

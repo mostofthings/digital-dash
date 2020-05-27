@@ -1,29 +1,32 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <script src="./lib/socket.io.min.js"></script>
-        <script type="text/javascript" src="./charts/loader.js"></script>
-        <script src="lib/Chart.bundle.min.js"></script>
-        <!-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> -->
-        <script type="module" src="script.js"></script>
-        <link rel="stylesheet" href="./lib/Chart.min.css">
-        <link rel="stylesheet" href="./lib/icono.min.css">
-        <link rel="stylesheet" href="styles.css">
-        <link rel="stylesheet" href="./g-meter/g-meter.css">
-        <link rel="stylesheet" href="./readouts/readouts.css">
-    </head>
-    <body>
-        <div class="slider">
-            <section id="gauges">
-                <div id="gauge-div"></div>
-            </section>
-            <section id="chart">
-                <canvas id="linechart"></canvas>
-                <div id="readouts-div"></div>
-                <div class="icono-moon" id="night-mode"></div>
-                <div class="icono-caretUp" id="caret-up"></div>
-                <div class="icono-caretDown" id="caret-down"></div>
-            </section>
-        </div>
-    </body>
+
+<head>
+    <script src="./lib/socket.io.min.js"></script>
+    <script type="text/javascript" src="./charts/loader.js"></script>
+    <script src="lib/Chart.bundle.min.js"></script>
+    <!-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> -->
+    <script type="module" src="script.js"></script>
+    <link rel="stylesheet" href="./lib/Chart.min.css">
+    <link rel="stylesheet" href="./lib/icono.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./g-meter/g-meter.css">
+    <link rel="stylesheet" href="./readouts/readouts.css">
+</head>
+
+<body>
+    <div class="slider">
+        <section id="gauges">
+            <div id="gauge-div"></div>
+        </section>
+        <section id="chart">
+            <canvas id="linechart"></canvas>
+            <div id="readouts-div"></div>
+            <div class="icono-moon" id="night-mode"></div>
+            <div class="icono-caretUp" id="caret-up"></div>
+            <div class="icono-caretDown" id="caret-down"></div>
+        </section>
+    </div>
+</body>
+
 </html>
