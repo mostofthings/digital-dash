@@ -1,3 +1,5 @@
+![Screenshot_1](https://github.com/mostofthings/digital-dash/assets/62969747/06c26d44-7946-418e-8517-8d5e5933e9b5)
+
 # Raspberry Pi Digital Dash
 
 The goal of this project is to create a universal digital gauge readout for racecar applications. The core aims of this project are:
@@ -5,6 +7,9 @@ The goal of this project is to create a universal digital gauge readout for race
 ## To display easy to read data in an attractive format.
 
 The final product should, as much as possible, look as good or better than a bank of physical gauges.
+
+![Screenshot_2](https://github.com/mostofthings/digital-dash/assets/62969747/d23a9d9f-4d89-4e75-bbfc-d882e002448e)
+
 
 ## To offer short-term historical data readout.
 
